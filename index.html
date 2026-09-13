@@ -36,6 +36,13 @@
   .rtab{border:1px solid var(--line); background:var(--card); border-radius:999px; padding:7px 16px; font-size:13px; cursor:pointer;}
   .rtab.active{color:#fff; border-color:transparent;}
   .rtab.active.n{background:var(--north);} .rtab.active.m{background:var(--mid);} .rtab.active.s{background:var(--south);} .rtab.active.h{background:#0c8599;}
+  .rtab.active.g{background:#d6336c;} .rtab.active.x{background:#5f3dc4;} .rtab.active.t{background:#495057;} .rtab.active.e{background:#e03131;}
+  .tscroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:14px; border-radius:12px;}
+  .tscroll table{min-width:1400px; margin-bottom:0; border-radius:0;}
+  .tscroll th:first-child,.tscroll td:first-child{position:sticky; left:0; z-index:2; background:#f0f2f5; box-shadow:1px 0 0 var(--line);}
+  .tscroll td:first-child{background:var(--card); z-index:1;}
+  .over-badge{display:inline-block; font-size:11px; color:#fff; background:#e03131; border-radius:4px; padding:1px 7px; margin-left:6px; font-weight:500; white-space:nowrap;}
+  .rpanel .lead{background:var(--card); border:1px solid var(--line); border-left:4px solid #e03131; border-radius:10px; padding:10px 14px; font-size:13px; line-height:1.8; margin-bottom:10px; color:#374151;}
   .rpanel{display:none;} .rpanel.show{display:block;}
   .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:10px; padding:0;}
   .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px;}
@@ -57,7 +64,7 @@
 <div class="wrap">
   <header>
     <h1>🚗 2026 国庆自驾 · 完整行程规划</h1>
-    <div class="meta">2026/9/24 晚 – 10/7 ｜ 两人自驾 ｜ 杭州 ⇄ 阜阳 · 西安 · 灵台 ｜ 返程三选一：北线 / 中线 / 南线</div>
+    <div class="meta">2026/9/24 晚 – 10/7 ｜ 两人自驾 ｜ 杭州 ⇄ 阜阳 · 西安 · 灵台 ｜ 返程八选一：华中 / 北 / 中 / 南 / 甘南川西 / 河西走廊 / 太行晋中 / 华东城市</div>
   </header>
 
   <h2 class="sec">🗺️ 路线总览图</h2>
@@ -69,6 +76,10 @@
     <label><input type="checkbox" id="rtm" checked><span class="swatch" style="background:#2f9e44"></span>中线（原路返回）</label>
     <label><input type="checkbox" id="rt4" checked><span class="swatch" style="background:#0c8599"></span>华中线（西安·武当·襄阳·武汉）</label>
     <label><input type="checkbox" id="rts" checked><span class="swatch" style="background:#e8590c"></span>南线（川渝·湘西·赣）</label>
+    <label><input type="checkbox" id="rt5" checked><span class="swatch" style="background:#d6336c"></span>甘南—川西线</label>
+    <label><input type="checkbox" id="rt6" checked><span class="swatch" style="background:#5f3dc4"></span>河西走廊线</label>
+    <label><input type="checkbox" id="rt7" checked><span class="swatch" style="background:#495057"></span>太行山—晋中线</label>
+    <label><input type="checkbox" id="rt8" checked><span class="swatch" style="background:#e03131"></span>华东城市线</label>
   </div>
   <div class="note">示意地图（按经纬度投影绘制，无需联网）。勾选可显示/隐藏各条路线；点击城市圆点可看城市名与所属省份。</div>
 
@@ -87,21 +98,59 @@
   </table>
   <div class="note">西安+灵台共 4 天（西安 2 个整天 + 机动半天，灵台 2 天）。10/1 0:00 起高速免费，返程全程免费通行。</div>
 
-  <h2 class="sec">🔀 返程四选一（10/3 – 10/7）</h2>
+  <h2 class="sec">🔀 返程八选一（10/3 – 10/7）</h2>
+  <div class="tscroll">
   <table>
-    <tr><th></th><th>华中线 · 西安—武当—襄阳—武汉</th><th>北线 · 宁夏—陕北—山西</th><th>中线 · 原路返回</th><th>南线 · 川渝—湘西—赣</th></tr>
-    <tr><td>总里程</td><td>约 1900 km</td><td>约 2600 km</td><td>约 2100 km</td><td>约 2800 km</td></tr>
-    <tr><td>强度</td><td>适中，每天 280–730 km</td><td>前松后紧，末日约 1100 km</td><td>最轻松，每天 ≤600 km</td><td>全程紧，天天 400+ km</td></tr>
-    <tr><td>风格</td><td>名山+古城+江城，山水人文均衡</td><td>大漠、黄河、黄土高原、晋商古城</td><td>人文古迹串联，最稳</td><td>火锅、古城、江楼，跨度最大</td></tr>
-    <tr><td>适合</td><td>均衡首选，景点质量高</td><td>想看全新区域、不怕开</td><td>求稳求舒适</td><td>精力充沛、想多打卡省份</td></tr>
-    <tr><td>推荐指数</td><td>★★★★★</td><td>★★★★</td><td>★★★</td><td>★★★★（体力允许时）</td></tr>
+    <tr>
+      <th></th>
+      <th>🔷 华中线<br><span style="font-weight:400;color:var(--sub)">西安·武当·襄阳·武汉</span></th>
+      <th>🟣 北线<br><span style="font-weight:400;color:var(--sub)">宁夏·陕北·山西</span></th>
+      <th>🟢 中线<br><span style="font-weight:400;color:var(--sub)">原路返回</span></th>
+      <th>🟠 南线<br><span style="font-weight:400;color:var(--sub)">川渝·湘西·赣</span></th>
+      <th>🌸 甘南—川西线<br><span style="font-weight:400;color:var(--sub)">甘南草原·九寨·成都</span></th>
+      <th>🏜️ 河西走廊线<br><span style="font-weight:400;color:var(--sub)">张掖丹霞·敦煌</span></th>
+      <th>⛰️ 太行山—晋中线<br><span style="font-weight:400;color:var(--sub)">关帝庙·皇城相府·郭亮村</span></th>
+      <th>🏙️ 华东城市线<br><span style="font-weight:400;color:var(--sub)">洛阳·南京·黄山</span></th>
+    </tr>
+    <tr>
+      <td>总里程</td><td>约 1900 km</td><td>约 2600 km</td><td>约 2100 km</td><td>约 2800 km</td>
+      <td>约 3600 km</td><td>约 4600 km</td><td>约 2150 km</td><td>约 2050 km</td>
+    </tr>
+    <tr>
+      <td>所需天数</td><td>5 天</td><td>5 天</td><td>5 天</td><td>5 天</td>
+      <td class="warn">8–9 天<span class="over-badge">超出假期 3–4 天</span></td>
+      <td class="warn">8 天<span class="over-badge">超出假期 3 天</span></td>
+      <td>5 天</td><td>5 天</td>
+    </tr>
+    <tr>
+      <td>强度</td><td>适中，每天 280–730 km</td><td>前松后紧，末日约 1100 km</td><td>最轻松，每天 ≤600 km</td><td>全程紧，天天 400+ km</td>
+      <td>高原+山路，海拔 3000 m 以上</td><td>含 1100 km 纯赶路日</td><td>均衡，每天 200–750 km</td><td>仅 1 天长距离（洛阳→南京 800 km）</td>
+    </tr>
+    <tr>
+      <td>风格</td><td>名山+古城+江城，山水人文均衡</td><td>大漠、黄河、黄土高原、晋商古城</td><td>人文古迹串联，最稳</td><td>火锅、古城、江楼，跨度最大</td>
+      <td>藏传佛寺、草原、彩林海子</td><td>丝路重镇、丹霞、莫高窟</td><td>关公文化、晋商大院、挂壁公路</td><td>古都+江南园林+黄山云海</td>
+    </tr>
+    <tr>
+      <td>适合</td><td>均衡首选，景点质量高</td><td>想看全新区域、不怕开</td><td>求稳求舒适</td><td>精力充沛、想多打卡省份</td>
+      <td>以后单独成行，本次假期不够</td><td>以后单独成行，本次假期不够</td><td>想走新省份又不想太累</td><td>同行人体力一般 / 想轻松收尾</td>
+    </tr>
+    <tr>
+      <td>推荐指数</td><td>★★★★★</td><td>★★★★</td><td>★★★</td><td>★★★★（体力允许时）</td>
+      <td>★★★★★（仅作存档）</td><td>★★★★（仅作存档）</td><td>★★★★☆</td><td>★★★★</td>
+    </tr>
   </table>
+  </div>
+  <div class="note">表格可左右拖动查看全部 8 条线。🌸 甘南—川西 与 🏜️ 河西走廊 为存档方案，5 天假期走不完，完整排期见下方对应 Tab（已标红）。</div>
 
   <div class="rtabs">
     <div class="rtab h" data-p="ph">🔷 华中线</div>
     <div class="rtab n" data-p="pn">🟣 北线</div>
     <div class="rtab m" data-p="pm">🟢 中线</div>
     <div class="rtab s" data-p="ps">🟠 南线</div>
+    <div class="rtab g" data-p="pg">🌸 甘南—川西</div>
+    <div class="rtab x" data-p="px">🏜️ 河西走廊</div>
+    <div class="rtab t" data-p="pt">⛰️ 太行山—晋中</div>
+    <div class="rtab e" data-p="pe">🏙️ 华东城市</div>
   </div>
 
   <div class="rpanel" id="ph">
@@ -150,16 +199,73 @@
     <div class="note">⚠️ 南线后两天（750 / 600 km）为高强度日，需两人全程轮换驾驶；黄金周川渝、湘西住宿紧张，需尽早预订。</div>
   </div>
 
+  <div class="rpanel" id="pg">
+    <div class="lead"><b>⚠️ 此线 5 天假期走不完</b>：灵台到成都单程就约 1500 km / 4 天，成都回杭州还有约 2100 km。下面按完整 <b>9 天</b> 排期存档，若本次要走需额外请假 4 天；硬压成 5 天只能到九寨沟为止、且须从成都飞回（车需另想办法）。<br>另注：10 月初甘南草原已枯黄、海拔 3000–3500 m 可能落雪，九寨沟为国庆最高峰人流，务必提前 15 天抢票。</div>
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 兰州</td><td>360 km</td><td>下午甘肃省博物馆（铜奔马）、黄河中山桥夜景、正宁路夜市</td><td>兰州</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>兰州 → 临夏（八坊十三巷）→ 夏河</td><td>240 km</td><td>进入甘南藏区；拉卜楞寺（世界最长转经长廊）</td><td>夏河</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>夏河 → 桑科草原 → 郎木寺</td><td>200 km</td><td>甘南草原腹地；郎木寺小镇横跨甘川两省</td><td>郎木寺镇</td></tr>
+      <tr><td class="date">10/6<span class="wk">周二</span></td><td>郎木寺 → 若尔盖花湖 → 九寨沟</td><td>320 km</td><td>黄河九曲第一湾可绕 1h；花湖—热尔大坝草原</td><td>九寨沟口</td></tr>
+      <tr class="hl"><td class="date">10/7<span class="wk">周三</span></td><td class="warn">九寨沟整日（诺日朗—五花海—长海）</td><td>—</td><td>国庆人流峰值，7 点前排队入园；此日已超出 10/7 到家计划</td><td>九寨沟口</td></tr>
+      <tr><td class="date">D6<span class="wk">请假</span></td><td>九寨沟 → 成都</td><td>400 km</td><td>岷江河谷；晚上宽窄巷子 / 锦里</td><td>成都</td></tr>
+      <tr><td class="date">D7<span class="wk">请假</span></td><td>成都 → 重庆</td><td>300 km</td><td>大熊猫基地上午半日；傍晚洪崖洞夜景 + 火锅</td><td>重庆</td></tr>
+      <tr><td class="date">D8<span class="wk">请假</span></td><td>重庆 → 长沙</td><td class="warn">900 km</td><td>全天赶路，两人轮换</td><td>长沙</td></tr>
+      <tr class="hl"><td class="date">D9<span class="wk">请假</span></td><td class="warn">长沙 → 杭州</td><td>900 km</td><td>早 6 点出发，晚 7–8 点到</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 若只有 5 天：走 灵台→兰州→夏河→郎木寺→成都（约 1500 km / 4 天），第 5 天成都飞杭州，车托运或找人开回——成本较高，不如留到下次连休。</div>
+  </div>
+
+  <div class="rpanel" id="px">
+    <div class="lead"><b>⚠️ 此线 5 天假期走不完</b>：敦煌在兰州西北 1100 km 外，往返光赶路就占掉 2 天。下面按完整 <b>8 天</b> 排期存档，若本次要走需额外请假 3 天。<br>另注：莫高窟正窟票需提前 30 天在官方小程序实名抢（国庆基本秒空），抢不到只能买应急票看 4 个窟；张掖丹霞最佳光线在日落前 2 小时。</div>
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 兰州</td><td>360 km</td><td>甘肃省博物馆、黄河风情线、牛肉面</td><td>兰州</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>兰州 → 武威（雷台汉墓）→ 张掖</td><td>520 km</td><td>傍晚张掖七彩丹霞（日落光线最佳）</td><td>张掖</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>张掖（大佛寺）→ 嘉峪关 → 敦煌</td><td>580 km</td><td>嘉峪关城楼 + 悬臂长城（各 1.5h）</td><td>敦煌</td></tr>
+      <tr><td class="date">10/6<span class="wk">周二</span></td><td>敦煌：莫高窟 → 鸣沙山月牙泉</td><td>—</td><td>上午莫高窟，下午 5 点后进沙漠避高温、看落日</td><td>敦煌</td></tr>
+      <tr class="hl"><td class="date">10/7<span class="wk">周三</span></td><td class="warn">敦煌 → 兰州（G3011 / G30 全天高速）</td><td class="warn">1100 km</td><td>纯赶路日，早 6 点出发两人轮换，晚 8 点到</td><td>兰州</td></tr>
+      <tr><td class="date">D7<span class="wk">请假</span></td><td>兰州 → 西安</td><td>650 km</td><td>天水麦积山可绕 2h（石窟四大之一）</td><td>西安</td></tr>
+      <tr><td class="date">D8<span class="wk">请假</span></td><td>西安 → 合肥</td><td>1000 km</td><td>全天赶路</td><td>合肥</td></tr>
+      <tr class="hl"><td class="date">D9<span class="wk">请假</span></td><td>合肥 → 杭州</td><td>450 km</td><td>睡到自然醒，中午到家</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 若只有 5 天：只走「兰州—武威—张掖—嘉峪关」折返（约 1400 km），敦煌留到下次。丹霞 + 嘉峪关 4 天可完成，第 5 天 1100 km 回程仍偏紧。</div>
+  </div>
+
+  <div class="rpanel" id="pt">
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 西安（不停）→ 运城</td><td>530 km</td><td>解州关帝庙（关公祖庙，规模全国第一）、运城盐湖「七彩」</td><td>运城</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>运城 → 晋城（皇城相府）→ 王莽岭</td><td>250 km</td><td>皇城相府（陈廷敬故居）3h；下午王莽岭看太行山脊</td><td>晋城 / 陵川</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>晋城 → 新乡辉县（郭亮村挂壁公路）</td><td>220 km</td><td>郭亮洞挂壁公路 + 崖上人家；或改云台山红石峡</td><td>辉县 / 焦作</td></tr>
+      <tr class="hl"><td class="date">10/6<span class="wk">周二</span></td><td>新乡 → 郑州（可停少林寺 3h）→ 合肥</td><td class="warn">680 km</td><td>登封少林寺顺路；晚宿合肥罍街吃小吃</td><td>合肥</td></tr>
+      <tr><td class="date">10/7<span class="wk">周三</span></td><td>合肥 → 杭州</td><td>450 km</td><td>睡到自然醒，中午到杭州</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 与北线（宁夏—陕北—山西）走向不同：本线走山西东南部太行山区，景点更密、单日车程更短，最后两天也比北线的 1100 km 轻松得多。10/6 若不舍少林寺，可改走 新乡→开封（清明上河园半日）→合肥，里程相近。</div>
+  </div>
+
+  <div class="rpanel" id="pe">
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 西安（补漏：回民街/大唐不夜城）</td><td>280 km</td><td>轻松过渡日，把去程没吃没逛的补上</td><td>西安</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>西安 → 洛阳（龙门石窟夜游）</td><td>380 km</td><td>龙门石窟夜场人少、灯光打佛龛极美；洛邑古城汉服夜游</td><td>洛阳</td></tr>
+      <tr class="hl"><td class="date">10/5<span class="wk">周一</span></td><td class="warn">洛阳 → 南京（G36 宁洛高速）</td><td class="warn">800 km</td><td>早 6 点出发两人轮换，下午 4–5 点到；晚上夫子庙秦淮河</td><td>南京</td></tr>
+      <tr><td class="date">10/6<span class="wk">周二</span></td><td>南京（中山陵 / 南京博物院）→ 黄山</td><td>350 km</td><td>上午中山陵 2.5h，午后出发，晚宿汤口镇</td><td>黄山汤口</td></tr>
+      <tr><td class="date">10/7<span class="wk">周三</span></td><td>黄山（云谷寺索道上、光明顶）→ 杭州</td><td>250 km</td><td>7 点前上山避开索道排队；下午下山开车回杭</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 五条可行线里最轻松的一条：仅 10/5 一天长距离，其余都在 250–380 km 之间，路也最好开（全程平原高速）。缺点是自然风光偏少、以城市人文为主。若不喜欢爬黄山，10/6 可改 南京 → 苏州（200 km，拙政园 + 平江路），10/7 苏州 → 杭州 仅 100 km，收尾更从容。</div>
+  </div>
+
   <h2 class="sec">📍 沿途景点清单（含省份）</h2>
   <div id="attractions"></div>
 
   <h2 class="sec">💰 费用预估（两人）</h2>
   <table>
     <tr><th>项目</th><th>说明</th><th>金额</th></tr>
-    <tr><td>油费</td><td>全程约 4000–4600 km（视返程线路）</td><td>≈ ¥2,600–3,000</td></tr>
+    <tr><td>油费</td><td>全程约 3,400–6,100 km（去程 1,530 km + 返程：华中 1,900 / 太行晋中 2,150 / 华东 2,050 / 中线 2,100 / 南线 2,800 / 甘南川西 3,600 / 河西走廊 4,600 km）</td><td>≈ ¥2,000–3,700</td></tr>
     <tr><td>过路费</td><td>去程段收费；10/1 0:00 – 10/7 24:00 高速免费，返程全程免费</td><td>≈ ¥800–1,000</td></tr>
-    <tr><td>酒店</td><td>约 8–10 晚 × 400–600 元（黄金周溢价，南线更贵）</td><td>≈ ¥4,000–5,500</td></tr>
-    <tr><td>门票</td><td>兵马俑、城墙、龙门石窟、乾陵、崆峒山、武当山等</td><td>≈ ¥1,500</td></tr>
+    <tr><td>酒店</td><td>约 8–10 晚 × 400–600 元（黄金周溢价，南线/甘南线更贵）</td><td>≈ ¥4,000–5,500</td></tr>
+    <tr><td>门票</td><td>兵马俑、城墙、龙门石窟、乾陵、崆峒山、武当山等；甘南线需加九寨沟 280/人，河西线需加莫高窟 238/人</td><td>≈ ¥1,500</td></tr>
     <tr><td>餐饮</td><td>全程约 14 天</td><td>≈ ¥2,000–2,500</td></tr>
     <tr><td><b>合计</b></td><td></td><td><b>≈ ¥1.1–1.4 万</b></td></tr>
   </table>
@@ -172,6 +278,7 @@
         <li>预订酒店：西安 3 晚、返程沿途各晚，选可免费取消</li>
         <li>兵马俑、陕历博：开放预约即抢（实名）</li>
         <li>确认平凉体检档期（若需要，优先约 10/2）</li>
+        <li>先定返程线路（8 选 1），再按该线订沿途酒店</li>
       </ul>
     </div>
     <div class="box">
@@ -194,14 +301,23 @@ const CITY = {
   武汉:[114.31,30.59], 合肥:[117.28,31.86], 宣城:[118.76,30.95],
   固原:[106.24,36.00], 银川:[106.23,38.48], 中卫:[105.18,37.51], 延安:[109.49,36.60], 壶口:[110.45,36.15], 平遥:[112.18,37.20],
   广元:[105.84,32.44], 重庆:[106.55,29.56], 凤凰:[109.60,27.95], 长沙:[112.94,28.23], 南昌:[115.86,28.68],
+  兰州:[103.83,36.06], 临夏:[103.21,35.60], 夏河:[102.51,35.20], 郎木寺:[102.63,34.09], 若尔盖:[102.96,33.57],
+  九寨沟:[103.92,33.26], 成都:[104.07,30.57],
+  武威:[102.63,37.93], 张掖:[100.45,38.93], 嘉峪关:[98.28,39.77], 敦煌:[94.66,40.14],
+  运城:[111.00,35.03], 晋城:[112.85,35.49], 新乡:[113.93,35.30], 郑州:[113.62,34.75],
+  南京:[118.80,32.06], 黄山:[118.17,30.13],
 };
 const PROV = {
   杭州:"浙江", 阜阳:"安徽", 洛阳:"河南", 西安:"陕西", 灵台:"甘肃", 宝鸡:"陕西", 留坝:"陕西", 汉中:"陕西",
   武当山:"湖北", 襄阳:"湖北", 武汉:"湖北", 合肥:"安徽", 宣城:"安徽", 固原:"宁夏", 银川:"宁夏", 中卫:"宁夏",
   延安:"陕西", 壶口:"山西/陕西", 平遥:"山西", 广元:"四川", 重庆:"重庆", 凤凰:"湖南", 长沙:"湖南", 南昌:"江西",
+  兰州:"甘肃", 临夏:"甘肃", 夏河:"甘肃", 郎木寺:"甘肃/四川", 若尔盖:"四川", 九寨沟:"四川", 成都:"四川",
+  武威:"甘肃", 张掖:"甘肃", 嘉峪关:"甘肃", 敦煌:"甘肃",
+  运城:"山西", 晋城:"山西", 新乡:"河南", 郑州:"河南",
+  南京:"江苏", 黄山:"安徽",
 };
-/* 视野范围（经度 96–126，纬度 20–43.5） */
-const LON0=96, LON1=126, LAT0=20, LAT1=43.5;
+/* 视野范围（经度 92–126，纬度 20–43.5）；西至 92°E 以容纳敦煌 94.66°E */
+const LON0=92, LON1=126, LAT0=20, LAT1=43.5;
 const W=1000, H=760;
 const X = lon => (lon-LON0)/(LON1-LON0)*W;
 const Y = lat => (LAT1-lat)/(LAT1-LAT0)*H;
@@ -226,6 +342,10 @@ const ROUTES = [
  {id:"rtm", color:"#2f9e44", pts:["灵台","西安","洛阳","合肥","宣城","杭州"], name:"中线：灵台 → 西安 → 洛阳 → 合肥 → 宣城 → 杭州"},
  {id:"rt4", color:"#0c8599", pts:["灵台","西安","武当山","襄阳","武汉","杭州"], name:"华中线：灵台 → 西安 → 武当山 → 襄阳 → 武汉 → 杭州"},
  {id:"rts", color:"#e8590c", pts:["灵台","广元","重庆","凤凰","长沙","南昌","杭州"], name:"南线：灵台 → 广元 → 重庆 → 凤凰 → 长沙 → 南昌 → 杭州"},
+ {id:"rt5", color:"#d6336c", pts:["灵台","兰州","临夏","夏河","郎木寺","若尔盖","九寨沟","成都","重庆","长沙","杭州"], name:"甘南—川西线：灵台 → 兰州 → 夏河 → 郎木寺 → 若尔盖 → 九寨沟 → 成都 → 重庆 → 长沙 → 杭州"},
+ {id:"rt6", color:"#5f3dc4", pts:["灵台","兰州","武威","张掖","嘉峪关","敦煌","兰州","西安","合肥","杭州"], name:"河西走廊线：灵台 → 兰州 → 武威 → 张掖 → 嘉峪关 → 敦煌 → 兰州 → 西安 → 合肥 → 杭州"},
+ {id:"rt7", color:"#495057", pts:["灵台","西安","运城","晋城","新乡","郑州","合肥","杭州"], name:"太行山—晋中线：灵台 → 西安 → 运城 → 晋城 → 新乡 → 郑州 → 合肥 → 杭州"},
+ {id:"rt8", color:"#e03131", pts:["灵台","西安","洛阳","南京","黄山","杭州"], name:"华东城市线：灵台 → 西安 → 洛阳 → 南京 → 黄山 → 杭州"},
 ];
 
 const svgNS = "http://www.w3.org/2000/svg";
@@ -239,7 +359,7 @@ document.getElementById("map").appendChild(svg);
 
 /* 背景 + 网格 */
 svg.appendChild(el("rect",{x:0,y:0,width:W,height:H,fill:"#eaf2f6"}));
-for(let lon=100; lon<=125; lon+=5){
+for(let lon=95; lon<=125; lon+=5){
   const g = el("line",{x1:X(lon),y1:0,x2:X(lon),y2:H,stroke:"#d3e2ea","stroke-width":1});
   svg.appendChild(g);
   const t = el("text",{x:X(lon)+3,y:H-6,fill:"#9fb8c4","font-size":11}); t.textContent = lon+"°E"; svg.appendChild(t);
@@ -370,6 +490,36 @@ const DATA = [
   {city:"凤凰", prov:"湖南", items:[["凤凰古城","s1","沱江吊脚楼夜景"],["苗人谷","s3","顺路半日"]]},
   {city:"长沙", prov:"湖南", items:[["橘子洲头","s2","湘江中洲，青年毛泽东像"],["岳麓山/岳麓书院","s3","时间紧可舍"],["茶颜悦色/文和友","s2","打卡型美食"]]},
   {city:"南昌", prov:"江西", items:[["滕王阁","s2","江南三大名楼"],["万寿宫历史文化街区","s3","小吃夜市"]]},
+ ]},
+ {seg:"🌸 甘南—川西线沿途（兰州—甘南—九寨—成都—重庆）", cities:[
+  {city:"兰州", prov:"甘肃", items:[["甘肃省博物馆","s1","铜奔马、丝绸之路文明展，免费但需预约"],["中山桥+黄河风情线","s3","黄河母亲像、水车博览园"],["正宁路夜市","s3","牛奶鸡蛋醪糟、烤肉"]]},
+  {city:"临夏", prov:"甘肃", items:[["八坊十三巷","s3","回族砖雕民居群，兰州→夏河顺路"],["炳灵寺石窟","s2","需绕路+坐船半天，时间富余才去"]]},
+  {city:"夏河", prov:"甘肃", items:[["拉卜楞寺","s1","格鲁派六大寺之一，世界最长转经长廊"],["桑科草原","s3","县城外 13 km，10 月草已枯黄"]]},
+  {city:"郎木寺", prov:"甘肃/四川", items:[["格尔底寺","s2","四川侧，白龙江源头可徒步"],["赛赤寺","s3","甘肃侧，看小镇全景"],["纳摩大峡谷","s3","徒步往返 2h"]]},
+  {city:"若尔盖", prov:"四川", items:[["花湖","s2","高原湿地，10 月水草转黄但仍有野鸭"],["黄河九曲第一湾","s2","日落最佳，需绕 1h 车程"]]},
+  {city:"九寨沟", prov:"四川", items:[["五花海","s1","九寨精华，色彩最丰富"],["诺日朗瀑布","s1","《西游记》片尾取景地"],["长海+五彩池","s2","则查洼沟顶端"],["树正沟","s3","进沟第一站，人少"]]},
+  {city:"成都", prov:"四川", items:[["大熊猫繁育研究基地","s1","务必早 7:30 到，9 点后熊猫睡觉"],["宽窄巷子/锦里","s3","商业化但顺路"],["都江堰","s2","若多留半天可去"]]},
+ ]},
+ {seg:"🏜️ 河西走廊线沿途（兰州—武威—张掖—嘉峪关—敦煌）", cities:[
+  {city:"武威", prov:"甘肃", items:[["雷台汉墓","s3","「马踏飞燕」出土地，兰州→张掖顺路"],["鸠摩罗什寺","s3","市内免费"]]},
+  {city:"张掖", prov:"甘肃", items:[["七彩丹霞","s1","日落前 2 小时进景区光线最好"],["大佛寺","s2","西夏卧佛，室内亚洲最大室内涅槃像"],["马蹄寺","s3","需绕路半天，悬空石窟"]]},
+  {city:"嘉峪关", prov:"甘肃", items:[["嘉峪关城楼","s1","天下第一雄关，含悬臂长城联票"],["方特欢乐世界","s3","同行人有兴趣才去"]]},
+  {city:"敦煌", prov:"甘肃", items:[["莫高窟","s1","需提前 30 天官方实名抢票；应急票仅 4 窟"],["鸣沙山·月牙泉","s1","下午 5 点后进，避高温看落日"],["雅丹魔鬼城","s2","西线 180 km，需大半天"],["玉门关·汉长城","s3","与雅丹同线顺路"]]},
+  {city:"天水", prov:"甘肃", items:[["麦积山石窟","s1","四大石窟之一，兰州→西安可绕 2h"]]},
+ ]},
+ {seg:"⛰️ 太行山—晋中线沿途（运城—晋城—新乡—郑州）", cities:[
+  {city:"运城", prov:"山西", items:[["解州关帝庙","s1","关公祖庙，全国规模最大"],["运城盐湖","s3","「七彩盐湖」，顺路远观即可"],["永乐宫","s2","元代壁画，比永乐宫名气小但极珍贵，绕 1h"]]},
+  {city:"晋城", prov:"山西", items:[["皇城相府","s1","陈廷敬故居，城堡式官宅，3h 够"],["王莽岭","s2","太行山脊云海，需好天气"],["锡崖沟挂壁公路","s3","与郭亮村同类型，可二选一"]]},
+  {city:"新乡", prov:"河南", items:[["郭亮村挂壁公路","s1","人工开凿的天路，视觉冲击强"],["万仙山·南坪","s2","与郭亮村同一景区"],["八里沟","s3","若不去郭亮可换这里"]]},
+  {city:"焦作", prov:"河南", items:[["云台山红石峡","s1","丹霞峡谷，国庆人多需早进"],["茱萸峰","s3","王维写诗处，爬山 2h"]]},
+  {city:"郑州", prov:"河南", items:[["少林寺（登封）","s2","顺路 3h，含武术表演"],["河南博物院","s2","免费，需预约；九大镇院之宝"]]},
+  {city:"开封", prov:"河南", items:[["清明上河园","s2","此线可作为新乡→合肥的中途替换项"]]},
+ ]},
+ {seg:"🏙️ 华东城市线沿途（洛阳—南京—黄山 / 苏州）", cities:[
+  {city:"洛阳", prov:"河南", items:[["龙门石窟（夜游）","s1","夜间打光，人少体验好"],["洛邑古城","s2","汉服夜游"],["白马寺","s3","时间富余才去"]]},
+  {city:"南京", prov:"江苏", items:[["中山陵","s1","免费，需预约；台阶多穿舒服鞋"],["南京博物院","s2","国内前三，免费需提前约"],["夫子庙秦淮河","s2","夜景核心，小吃一般"],["先锋书店五台山店","s3","文艺打卡"]]},
+  {city:"苏州", prov:"江苏", items:[["拙政园","s1","四大名园之首，早开园即入"],["平江路","s2","水巷街区，晚上也有味道"],["苏州博物馆","s2","贝聿铭封笔作，免费需约"]]},
+  {city:"黄山", prov:"安徽", items:[["光明顶+飞来石","s1","前山精华，7 点前上索道"],["西海大峡谷","s2","需体力，来回 3–4h"],["宏村/西递","s2","下山后顺路 1h，徽派古村"]]},
  ]},
 ];
 const BADGE = {s1:["⭐ 强烈推荐","b-s1"], s2:["👍 值得绕路","b-s2"], s3:["📍 顺路快闪","b-s3"]};
