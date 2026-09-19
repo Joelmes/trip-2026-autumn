@@ -76,11 +76,10 @@
   </header>
 
   <nav class="anchor">
-    <a href="#sec-map">🗺️ 路线图</a>
-    <a href="#sec-out">📅 行程安排</a>
-    <a href="#sec-ret">🔀 返程六线</a>
-    <a href="#sec-spots">📍 沿途景点</a>
+    <a href="#sec-plan">📅 总体时间安排</a>
+    <a href="#sec-out">🚗 去程安排及途径景点</a>
     <a href="#sec-xian">🍜 西安深度游</a>
+    <a href="#sec-ret">🔀 返程线路</a>
     <a href="#sec-cost">💰 费用</a>
     <a href="#sec-todo">✅ 待办</a>
   </nav>
@@ -99,7 +98,7 @@
   </div>
   <div class="note">示意地图（按经纬度投影绘制，无需联网）。勾选可显示/隐藏各条路线；点击城市圆点可看城市名与所属省份。</div>
 
-  <h2 class="sec" id="sec-out">📅 行程安排（9/24 – 10/7）</h2>
+  <h2 class="sec" id="sec-plan">📅 总体时间安排（9/24 – 10/7）</h2>
   <table>
     <tr><th style="width:90px">日期</th><th>当日安排</th><th style="width:130px">住宿</th></tr>
     <tr><td class="date">9/24<span class="wk">周四</span></td><td>晚 21:30–22:00 出发，杭州 → <b>颍上县</b>（约 480–500 km / 5–5.5h，中途不停，出发前加满油），凌晨 4:00–5:00 抵达补觉</td><td>颍上</td></tr>
@@ -117,9 +116,11 @@
     <tr><td class="date">10/6<span class="wk">周二</span></td><td>襄阳（可选古隆中 2h）→ 武汉（300 km），下午黄鹤楼/东湖，晚上江汉路+粮道街宵夜</td><td>武汉</td></tr>
     <tr class="hl"><td class="date">10/7<span class="wk">周三</span></td><td class="warn">武汉 → 杭州（G50 沪渝，约 730 km），早 6 点出发两人轮换，晚 7–8 点到；末日午后堵，务必早走</td><td>回家</td></tr>
   </table>
+  <h2 class="sec" id="sec-out">🚗 去程安排及途径景点（9/24 – 9/30，含灵台停留至 10/2）</h2>
   <div class="box" style="margin-bottom:14px;">
     <h3>🎫 龙门石窟 9/27 早场 · 预约与游玩注意事项（官方渠道提示）</h3>
     <ul>
+      <li><b>⏰ 购票提醒</b>：<b>9/21（周一）00:10</b> 公众号「龙门石窟」开抢 9/27 早场票（90 元/人 ×2），提前完成实名，设好闹钟</li>
       <li><b>预约渠道</b>：仅官方微信公众号/小程序「龙门石窟」，现场售票窗口已关闭；每天凌晨 00:10 放票，90 元/人（大学生票 45 元）</li>
       <li><b>入园凭证</b>：购票成功后凭本人有效身份证件<b>原件</b>核验入园，支付宝用户可刷脸入园；优惠人群凭优惠证件原件及身份证原件到票务中心窗口办理</li>
       <li><b>游览顺序</b>：实行<b>单线游览</b>，依次为 西山石窟 → 东山石窟 → 香山寺 → 白园，全程四次检票，不可回头</li>
@@ -131,7 +132,20 @@
   </div>
   <div class="note">西安+灵台共 4 天（西安 2 个整天 + 机动半天，灵台 2 天）。10/1 0:00 起高速免费，返程全程免费通行。</div>
 
-  <h2 class="sec" id="sec-ret">🔀 返程六选一（10/3 – 10/7）</h2>
+  <h3 class="sub">📍 去程沿途景点（含省份）</h3>
+  <div id="outAttractions"></div>
+
+  <h3 class="sub" id="sec-xian">🍜 西安深度游（收藏整合）</h3>
+  <div class="note">来自小红书收藏整理：美食按片区、景点含票价与小贴士、经典线路参考；票价为整理时价格，以现场为准。📍 地址为街区/片区级导航参考，小巷小店以地图 App 搜店名为准。</div>
+  <h3 class="sub">🍜 美食 · 按片区</h3>
+  <div id="xianFood"></div>
+  <h3 class="sub">🏛️ 景点 · 票价与小贴士</h3>
+  <div id="xianAttr"></div>
+  <h3 class="sub">🗺️ 经典线路参考（多份攻略共识）</h3>
+  <div id="xianRoute"></div>
+  <div class="note">💡 与行程对应：经典 Day1 / Day2 骨架 ≈ 9/28 / 9/29；若想看《长恨歌》，9/28 可改用 Day3 走法——洒金桥早餐 → 兵马俑下午场 → 华清宫 → 长恨歌第一场（散场地铁返市区）。10 月初正应季：刘明柿子糊塌、大兴善寺古银杏。美食觅食线末段与「拍照机位」清单待补发后并入。</div>
+
+  <h2 class="sec" id="sec-ret">🔀 返程线路选择与对比（10/3 – 10/7）</h2>
   <div class="tscroll">
   <table>
     <tr>
@@ -264,18 +278,8 @@
   </div>
 
 
-  <h2 class="sec" id="sec-spots">📍 沿途景点清单（含省份）</h2>
-  <div id="attractions"></div>
-
-  <h2 class="sec" id="sec-xian">🍜 西安深度攻略（收藏整合）</h2>
-  <div class="note">来自小红书收藏整理：美食按片区、景点含票价与小贴士、经典线路参考；票价为整理时价格，以现场为准。</div>
-  <h3 class="sub">🍜 美食 · 按片区</h3>
-  <div id="xianFood"></div>
-  <h3 class="sub">🏛️ 景点 · 票价与小贴士</h3>
-  <div id="xianAttr"></div>
-  <h3 class="sub">🗺️ 经典线路参考（多份攻略共识）</h3>
-  <div id="xianRoute"></div>
-  <div class="note">💡 与行程对应：经典 Day1 / Day2 骨架 ≈ 9/28 / 9/29；若想看《长恨歌》，9/28 可改用 Day3 走法——洒金桥早餐 → 兵马俑下午场 → 华清宫 → 长恨歌第一场（散场地铁返市区）。10 月初正应季：刘明柿子糊塌、大兴善寺古银杏。📍 地址为街区/片区级导航参考，小巷小店以地图 App 搜店名为准。美食觅食线末段与「拍照机位」清单待补发后并入。</div>
+  <h3 class="sub">📍 返程沿途景点（按线路分组）</h3>
+  <div id="retAttractions"></div>
 
   <h2 class="sec" id="sec-cost">💰 费用预估（两人）</h2>
   <table>
@@ -293,7 +297,8 @@
     <div class="box">
       <h3>现在就要做</h3>
       <ul>
-        <li>预订酒店：洛阳 9/26 晚（龙门/南郊一带）、西安 3 晚、返程沿途各晚，选可免费取消</li>
+        <li><b>9/21（周一）00:10</b>：公众号「龙门石窟」抢 9/27 早场门票 2 张（90 元/人），顺手订洛阳 9/26 晚酒店（龙门/南郊一带，可免费取消）</li>
+        <li>预订酒店：西安 3 晚、返程沿途各晚，选可免费取消</li>
         <li>龙门石窟 9/27 早场：公众号「龙门石窟」每天 00:10 放票即约（实名，爽约有惩罚）</li>
         <li>兵马俑、陕历博：开放预约即抢（实名）</li>
         <li>确认平凉体检档期（若需要，优先约 10/2）</li>
@@ -433,7 +438,7 @@ document.querySelector(".rtab.h").classList.add("active");
 document.getElementById("ph").classList.add("show");
 
 /* ---------- 景点清单 ---------- */
-const DATA = [
+const OUT_DATA = [
  {seg:"去程 · 杭州—颍上沿线", cities:[
   {city:"湖州", prov:"浙江", items:[["南浔古镇","s3","比乌镇西塘清净的江南古镇"]]},
   {city:"宣城", prov:"安徽", items:[["查济古村","s3","明清古村落"],["桃花潭","s3","「桃花潭水深千尺」"]]},
@@ -475,7 +480,9 @@ const DATA = [
   {city:"灵台", prov:"甘肃", items:[["皇甫谧文化园","s3","针灸鼻祖故里"],["荆山森林公园","s3","县城内散步"],["古灵台","s3","县名由来"]]},
   {city:"平凉", prov:"甘肃", items:[["崆峒山","s1","道教第一山，半天可游完"],["平凉博物馆","s3","免费，市区"]]},
  ]},
- {seg:"华中线沿途（西安—武当—襄阳—武汉）", cities:[
+];
+const RET_DATA = [
+ {seg:"🔷 华中线沿途（西安—武当—襄阳—武汉）", cities:[
   {city:"西安（补漏）", prov:"陕西", items:[["乾陵","s2","武则天与李治合葬墓，去程没停则此行补上"],["袁家村","s3","关中民俗美食村，午饭顺路"]]},
   {city:"商洛", prov:"陕西", items:[["漫川关古镇","s3","陕鄂边界千年古镇，G70 顺路"],["金丝峡","s3","秦岭峡谷，需多留半天"]]},
   {city:"十堰·武当山", prov:"湖北", items:[["金顶","s1","武当之巅，8 点前进山人少"],["紫霄宫","s1","皇家道观规制最高"],["太子坡","s2","九曲黄河墙、一柱十二梁"],["南岩","s2","悬崖宫殿，龙头香"]]},
@@ -528,17 +535,21 @@ const DATA = [
  ]},
 ];
 const BADGE = {s1:["⭐ 强烈推荐","b-s1"], s2:["👍 值得绕路","b-s2"], s3:["📍 顺路快闪","b-s3"]};
-const wrap = document.getElementById("attractions");
-DATA.forEach(s=>{
-  let html = `<div class="city-name">${s.seg}</div><div class="cards">`;
-  s.cities.forEach(c=>{
-    c.items.forEach(it=>{
-      html += `<div class="card"><div class="name">${it[0]}<span class="badge ${BADGE[it[1]][1]}">${BADGE[it[1]][0]}</span></div><div class="desc"><span class="prov">${c.prov}</span>${c.city} · ${it[2]}</div></div>`;
+function renderAttrs(containerId, data){
+  const wrap = document.getElementById(containerId);
+  data.forEach(s=>{
+    let html = `<div class="city-name">${s.seg}</div><div class="cards">`;
+    s.cities.forEach(c=>{
+      c.items.forEach(it=>{
+        html += `<div class="card"><div class="name">${it[0]}<span class="badge ${BADGE[it[1]][1]}">${BADGE[it[1]][0]}</span></div><div class="desc"><span class="prov">${c.prov}</span>${c.city} · ${it[2]}</div></div>`;
+      });
     });
+    html += `</div>`;
+    wrap.innerHTML += html;
   });
-  html += `</div>`;
-  wrap.innerHTML += html;
-});
+}
+renderAttrs("outAttractions", OUT_DATA);
+renderAttrs("retAttractions", RET_DATA);
 
 /* ---------- 西安深度攻略（收藏整合） ---------- */
 const XFOOD = [
