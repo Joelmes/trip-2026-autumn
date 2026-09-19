@@ -3,56 +3,264 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>2026 国庆自驾 · 总览</title>
-<link rel="stylesheet" href="style.css">
+<title>2026 国庆自驾 · 完整行程规划</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#fff; --ink:#1f2329; --sub:#6b7280;
+    --line:#e5e7eb; --accent:#2f6fed;
+    --s1:#e8590c; --s2:#0ca678; --s3:#868e96;
+    --north:#9c36b5; --mid:#2f9e44; --south:#e8590c;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif; background:var(--bg); color:var(--ink); padding:20px; padding-bottom:60px;}
+  .wrap{max-width:1080px; margin:0 auto;}
+  header{margin-bottom:18px;}
+  h1{font-size:22px; margin-bottom:6px;}
+  .meta{color:var(--sub); font-size:13px; line-height:1.7;}
+  h2.sec{font-size:17px; margin:26px 0 12px; padding-left:10px; border-left:4px solid var(--accent);}
+  table{width:100%; border-collapse:collapse; background:var(--card); border:1px solid var(--line); border-radius:12px; overflow:hidden; font-size:13px; margin-bottom:8px;}
+  th,td{padding:9px 12px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; line-height:1.6;}
+  th{background:#f0f2f5; font-weight:600; white-space:nowrap;}
+  tr:last-child td{border-bottom:none;}
+  td.date{white-space:nowrap; font-weight:600; color:var(--accent);}
+  .wk{color:var(--sub); font-weight:400; font-size:11px; display:block;}
+  .hl{background:#fff4e6;}
+  .warn{color:#d9480f; font-weight:600;}
+  .note{font-size:12px; color:var(--sub); margin:4px 0 14px; line-height:1.8;}
+  #map{background:#eaf2f6; border-radius:14px; border:1px solid var(--line); margin-bottom:10px; overflow:hidden;}
+  #map svg{display:block; width:100%; height:auto;}
+  .map-legend{display:flex; gap:16px; flex-wrap:wrap; font-size:13px; margin-bottom:8px; padding:10px 14px; background:var(--card); border:1px solid var(--line); border-radius:12px; align-items:center;}
+  .map-legend label{display:flex; align-items:center; gap:6px; cursor:pointer; user-select:none;}
+  .swatch{width:26px; height:4px; border-radius:2px; display:inline-block;}
+  .rtabs{display:flex; gap:8px; margin-bottom:12px; flex-wrap:wrap;}
+  .rtab{border:1px solid var(--line); background:var(--card); border-radius:999px; padding:7px 16px; font-size:13px; cursor:pointer;}
+  .rtab.active{color:#fff; border-color:transparent;}
+  .rtab.active.n{background:var(--north);} .rtab.active.m{background:var(--mid);} .rtab.active.s{background:var(--south);} .rtab.active.h{background:#0c8599;}
+  .rtab.active.g{background:#d6336c;} .rtab.active.x{background:#5f3dc4;} .rtab.active.t{background:#495057;} .rtab.active.e{background:#e03131;}
+  .tscroll{overflow-x:auto; -webkit-overflow-scrolling:touch; margin-bottom:14px; border-radius:12px;}
+  .tscroll table{min-width:1400px; margin-bottom:0; border-radius:0;}
+  .tscroll th:first-child,.tscroll td:first-child{position:sticky; left:0; z-index:2; background:#f0f2f5; box-shadow:1px 0 0 var(--line);}
+  .tscroll td:first-child{background:var(--card); z-index:1;}
+  .over-badge{display:inline-block; font-size:11px; color:#fff; background:#e03131; border-radius:4px; padding:1px 7px; margin-left:6px; font-weight:500; white-space:nowrap;}
+  .rpanel .lead{background:var(--card); border:1px solid var(--line); border-left:4px solid #e03131; border-radius:10px; padding:10px 14px; font-size:13px; line-height:1.8; margin-bottom:10px; color:#374151;}
+  .rpanel{display:none;} .rpanel.show{display:block;}
+  .cards{display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:10px; padding:0;}
+  .card{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:12px 14px;}
+  .card .name{font-size:14px; font-weight:600; display:flex; align-items:center; gap:6px; flex-wrap:wrap; margin-bottom:4px;}
+  .badge{font-size:11px; padding:1px 8px; border-radius:999px; font-weight:500; white-space:nowrap;}
+  .b-s1{color:#fff; background:var(--s1);} .b-s2{color:#fff; background:var(--s2);} .b-s3{color:#fff; background:var(--s3);}
+  .card .desc{font-size:12px; color:var(--sub); line-height:1.6;}
+  .city-name{font-size:13px; color:var(--sub); margin:12px 0 6px; font-weight:600;}
+  .prov{display:inline-block; font-size:11px; color:#fff; background:#94a3b8; border-radius:4px; padding:1px 6px; margin-right:6px;}
+  h3.sub{font-size:14px; margin:20px 0 10px; color:#495057;}
+  .price{display:inline-block; font-size:11px; color:#0b7285; background:#e3fafc; border:1px solid #99e9f2; border-radius:999px; padding:0 8px; font-weight:600; margin-left:6px; white-space:nowrap;}
+  .price.free{color:#2b8a3e; background:#ebfbee; border-color:#b2f2bb;}
+  .addr{font-size:11.5px; color:#1971c2; margin-top:4px; line-height:1.5;}
+  html{scroll-behavior:smooth;}
+  nav.anchor{position:sticky; top:0; z-index:30; display:flex; gap:8px; flex-wrap:wrap; background:var(--bg); padding:10px 0; border-bottom:1px solid var(--line); margin-bottom:6px;}
+  nav.anchor a{border:1px solid var(--line); background:var(--card); border-radius:999px; padding:6px 14px; font-size:13px; text-decoration:none; color:var(--ink); white-space:nowrap;}
+  nav.anchor a:hover{border-color:var(--accent); color:var(--accent);}
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  @media(max-width:760px){ .grid2{grid-template-columns:1fr;} }
+  .box{background:var(--card); border:1px solid var(--line); border-radius:12px; padding:14px 16px;}
+  .box h3{font-size:14px; margin-bottom:10px;}
+  .box ul{padding-left:18px; font-size:13px; color:#374151; line-height:2;}
+  @media print{ .map-legend,.rtabs{display:none;} .rpanel{display:block!important;} }
+</style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>🚗 2026 国庆自驾 · 总览</h1>
-    <div class="meta">2026/9/24 晚 – 10/7 ｜ 两人自驾 ｜ 杭州 ⇄ 阜阳 · 西安 · 灵台 ｜ 返程六选一（华中 / 北 / 南 / 甘南川西 / 河西走廊 / 太行晋中）</div>
+    <h1>🚗 2026 国庆自驾 · 完整行程规划</h1>
+    <div class="meta">2026/9/24 晚 – 10/7 ｜ 两人自驾 ｜ 杭州 ⇄ 阜阳 · 西安 · 灵台 ｜ 返程六选一：华中 / 北 / 南 / 甘南川西 / 河西走廊 / 太行晋中</div>
   </header>
 
-  <nav class="tabs">
-    <a href="index.html" class="active">🏠 总览</a>
-    <a href="outbound.html">🚗 去程详情</a>
-    <a href="return.html">🔀 返程线路</a>
-    <a href="xian.html">🍜 西安深度游</a>
+  <nav class="anchor">
+    <a href="#sec-map">🗺️ 路线图</a>
+    <a href="#sec-out">📅 行程框架</a>
+    <a href="#sec-ret">🔀 返程六线</a>
+    <a href="#sec-spots">📍 沿途景点</a>
+    <a href="#sec-xian">🍜 西安深度游</a>
+    <a href="#sec-cost">💰 费用</a>
+    <a href="#sec-todo">✅ 待办</a>
   </nav>
 
-  <h2 class="sec">📅 总体时间安排</h2>
-  <table>
-    <tr><th style="width:90px">阶段</th><th style="width:120px">日期</th><th>概要</th><th style="width:100px">住宿</th></tr>
-    <tr><td class="date">出发</td><td>9/24（四）晚</td><td>下班后出发，杭州 → 阜阳（约 500 km，中途不停），午夜前后抵达</td><td>阜阳</td></tr>
-    <tr><td class="date">阜阳</td><td>9/25 – 9/26</td><td>市内休整：颍州西湖、阜阳生态园；格拉条、枕头馍、粉鸡</td><td>阜阳</td></tr>
-    <tr><td class="date">西安</td><td>9/27 – 9/29</td><td>27 日赶路 750 km 抵达，晚逛大唐不夜城；28 兵马俑+华清宫；29 陕历博+大雁塔片区——<a href="xian.html">美食与经典线路见「西安深度游」</a></td><td>西安 3 晚</td></tr>
-    <tr><td class="date">灵台</td><td>9/30 – 10/2</td><td>30 日经乾陵/袁家村回家（280 km）；10/1 中秋节；10/2 机动（崆峒山 / 体检优先约这天）</td><td>灵台 3 晚</td></tr>
-    <tr><td class="date">返程</td><td>10/3 – 10/7</td><td>六条线路任选，默认推荐华中线——逐日对比见<a href="return.html">「返程线路」</a></td><td>沿途</td></tr>
-  </table>
-  <div class="note">西安 + 灵台共 4 天（西安 2 个整天 + 机动半天，灵台 2 天）。10/1 0:00 – 10/7 24:00 高速免费，返程段全程免费通行。全程约 2400–4600 km（视返程线路）。</div>
-
-  <h2 class="sec">🧭 分页导航</h2>
-  <div class="linkcards">
-    <a class="linkcard" href="outbound.html">
-      <div class="t">🚗 去程详情</div>
-      <div class="d">9/24 – 10/2 逐日安排（含灵台停留），杭州—阜阳—西安—灵台沿途景点清单</div>
-    </a>
-    <a class="linkcard" href="return.html">
-      <div class="t">🔀 返程线路（六选一）</div>
-      <div class="d">华中 / 北 / 南 / 甘南川西 / 河西走廊 / 太行晋中：对比表 + 逐日排期 + 沿途景点</div>
-    </a>
-    <a class="linkcard" href="xian.html">
-      <div class="t">🍜 西安深度游</div>
-      <div class="d">收藏整合：47 家美食按片区、23 个景点含票价、经典线路与觅食线</div>
-    </a>
-  </div>
-
-  <h2 class="sec">🗺️ 路线总览图</h2>
+  <h2 class="sec" id="sec-map">🗺️ 路线总览图</h2>
   <div id="map"></div>
-  <div class="map-legend" id="mapLegend"></div>
+  <div class="map-legend">
+    <span style="color:var(--sub);font-size:12px;">路线：</span>
+    <label><input type="checkbox" id="rt0" checked><span class="swatch" style="background:#2f6fed"></span>去程</label>
+    <label><input type="checkbox" id="rtn" checked><span class="swatch" style="background:#9c36b5"></span>北线（宁夏·陕北·山西）</label>
+    <label><input type="checkbox" id="rt4" checked><span class="swatch" style="background:#0c8599"></span>华中线（西安·武当·襄阳·武汉）</label>
+    <label><input type="checkbox" id="rts" checked><span class="swatch" style="background:#e8590c"></span>南线（川渝·湘西·赣）</label>
+    <label><input type="checkbox" id="rt5" checked><span class="swatch" style="background:#d6336c"></span>甘南—川西线</label>
+    <label><input type="checkbox" id="rt6" checked><span class="swatch" style="background:#5f3dc4"></span>河西走廊线</label>
+    <label><input type="checkbox" id="rt7" checked><span class="swatch" style="background:#495057"></span>太行山—晋中线</label>
+  </div>
   <div class="note">示意地图（按经纬度投影绘制，无需联网）。勾选可显示/隐藏各条路线；点击城市圆点可看城市名与所属省份。</div>
 
-  <h2 class="sec">💰 费用预估（两人）</h2>
+  <h2 class="sec" id="sec-out">📅 共用框架（9/24 – 10/2）</h2>
+  <table>
+    <tr><th style="width:90px">日期</th><th>当日安排</th><th style="width:130px">住宿</th></tr>
+    <tr><td class="date">9/24<span class="wk">周四</span></td><td>下班后出发，杭州 → 阜阳（约 500 km / 5.5h，中途不停），午夜前后抵达</td><td>阜阳</td></tr>
+    <tr><td class="date">9/25<span class="wk">周五</span></td><td>阜阳市内：颍州西湖、阜阳生态园；格拉条、枕头馍、粉鸡</td><td>阜阳</td></tr>
+    <tr><td class="date">9/26<span class="wk">周六</span></td><td>阜阳自由活动 / 机动日</td><td>阜阳</td></tr>
+    <tr><td class="date">9/27<span class="wk">周日</span></td><td>上午出发 阜阳 → 西安（约 750 km / 8h；中途可停亳州曹操运兵道，或绕洛阳龙门石窟），傍晚抵达，晚上大唐不夜城+大雁塔夜景</td><td>西安 ①</td></tr>
+    <tr><td class="date">9/28<span class="wk">周一</span></td><td>西安 Day1：上午兵马俑+华清宫，下午碑林/书院门、城墙南门骑行，晚上回民街+洒金桥（美食支线）</td><td>西安 ②</td></tr>
+    <tr><td class="date">9/29<span class="wk">周二</span></td><td>西安 Day2：上午陕历博（约不上改秦汉馆/西安博物院），下午大明宫丹凤门或长安十二时辰街区；<b>午后机动</b>，玩够可提前赴灵台</td><td>西安 ③ 或灵台</td></tr>
+    <tr><td class="date">9/30<span class="wk">周三</span></td><td>西安 → 灵台（约 280 km / 4h；顺路可停咸阳袁家村、乾陵），中午抵达灵台</td><td>灵台 ①</td></tr>
+    <tr><td class="date">10/1<span class="wk">周四</span></td><td>灵台：中秋节，休息；皇甫谧文化园、荆山森林公园</td><td>灵台 ②</td></tr>
+    <tr><td class="date">10/2<span class="wk">周五</span></td><td>灵台：自由安排，可半天平凉崆峒山（1h 车程）；如需体检优先约这天</td><td>灵台 ③</td></tr>
+  </table>
+  <div class="note">西安+灵台共 4 天（西安 2 个整天 + 机动半天，灵台 2 天）。10/1 0:00 起高速免费，返程全程免费通行。</div>
+
+  <h2 class="sec" id="sec-ret">🔀 返程六选一（10/3 – 10/7）</h2>
+  <div class="tscroll">
+  <table>
+    <tr>
+      <th></th>
+      <th>🔷 华中线<br><span style="font-weight:400;color:var(--sub)">西安·武当·襄阳·武汉</span></th>
+      <th>🟣 北线<br><span style="font-weight:400;color:var(--sub)">宁夏·陕北·山西</span></th>
+      <th>🟠 南线<br><span style="font-weight:400;color:var(--sub)">川渝·湘西·赣</span></th>
+      <th>🌸 甘南—川西线<br><span style="font-weight:400;color:var(--sub)">甘南草原·九寨·成都</span></th>
+      <th>🏜️ 河西走廊线<br><span style="font-weight:400;color:var(--sub)">张掖丹霞·敦煌</span></th>
+      <th>⛰️ 太行山—晋中线<br><span style="font-weight:400;color:var(--sub)">关帝庙·皇城相府·郭亮村</span></th>
+    </tr>
+    <tr>
+      <td>总里程</td><td>约 1900 km</td><td>约 2600 km</td><td>约 2800 km</td>
+      <td>约 3600 km</td><td>约 4600 km</td><td>约 2150 km</td>
+    </tr>
+    <tr>
+      <td>所需天数</td><td>5 天</td><td>5 天</td><td>5 天</td>
+      <td class="warn">8–9 天<span class="over-badge">超出假期 3–4 天</span></td>
+      <td class="warn">8 天<span class="over-badge">超出假期 3 天</span></td>
+      <td>5 天</td>
+    </tr>
+    <tr>
+      <td>强度</td><td>适中，每天 280–730 km</td><td>前松后紧，末日约 1100 km</td><td>全程紧，天天 400+ km</td>
+      <td>高原+山路，海拔 3000 m 以上</td><td>含 1100 km 纯赶路日</td><td>均衡，每天 200–750 km</td>
+    </tr>
+    <tr>
+      <td>风格</td><td>名山+古城+江城，山水人文均衡</td><td>大漠、黄河、黄土高原、晋商古城</td><td>火锅、古城、江楼，跨度最大</td>
+      <td>藏传佛寺、草原、彩林海子</td><td>丝路重镇、丹霞、莫高窟</td><td>关公文化、晋商大院、挂壁公路</td>
+    </tr>
+    <tr>
+      <td>适合</td><td>均衡首选，景点质量高</td><td>想看全新区域、不怕开</td><td>精力充沛、想多打卡省份</td>
+      <td>以后单独成行，本次假期不够</td><td>以后单独成行，本次假期不够</td><td>想走新省份又不想太累</td>
+    </tr>
+    <tr>
+      <td>推荐指数</td><td>★★★★★</td><td>★★★★</td><td>★★★★（体力允许时）</td>
+      <td>★★★★★（仅作存档）</td><td>★★★★（仅作存档）</td><td>★★★★☆</td>
+    </tr>
+  </table>
+  </div>
+  <div class="note">表格可左右拖动查看全部 6 条线。🌸 甘南—川西 与 🏜️ 河西走廊 为存档方案，5 天假期走不完，完整排期见下方对应 Tab（已标红）。</div>
+
+  <div class="rtabs">
+    <div class="rtab h" data-p="ph">🔷 华中线</div>
+    <div class="rtab n" data-p="pn">🟣 北线</div>
+    <div class="rtab s" data-p="ps">🟠 南线</div>
+    <div class="rtab g" data-p="pg">🌸 甘南—川西</div>
+    <div class="rtab x" data-p="px">🏜️ 河西走廊</div>
+    <div class="rtab t" data-p="pt">⛰️ 太行山—晋中</div>
+  </div>
+
+  <div class="rpanel" id="ph">
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 乾陵/袁家村（顺路停）→ 西安</td><td>280 km</td><td>补上去程没停的乾陵；晚上回民街/大唐不夜城补漏</td><td>西安</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>西安 → 商洛（可停漫川关古镇）→ 武当山</td><td>330 km</td><td>G70 福银高速穿秦岭；下午游太子坡、逍遥谷、南岩</td><td>武当山镇</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>武当山（一早金顶+紫霄宫）→ 丹江口大坝快闪 → 襄阳</td><td>250 km</td><td>8 点前进山；傍晚襄阳古城墙夜景 / 唐城影视城夜场</td><td>襄阳古城</td></tr>
+      <tr><td class="date">10/6<span class="wk">周二</span></td><td>襄阳（上午可选古隆中 2h）→ 武汉</td><td>300 km</td><td>下午黄鹤楼或东湖，晚上江汉路 + 粮道街宵夜（热干面、豆皮）</td><td>武汉</td></tr>
+      <tr class="hl"><td class="date">10/7<span class="wk">周三</span></td><td class="warn">武汉 → 杭州（G50 沪渝高速）</td><td>约 730 km</td><td>早 6 点出发两人轮换，晚 7–8 点到；末日午后堵，务必早走</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 若想减轻最后一天：10/6 晚从武汉再东行 200 km 住黄梅/九江，10/7 剩约 500 km；或 G50 沿线可顺路安庆天柱山、池州九华山（各绕 1–2h，仅时间富余时考虑）。</div>
+  </div>
+
+  <div class="rpanel" id="pn">
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 固原 → 银川</td><td>420 km</td><td>途经六盘山；晚上银川怀远夜市（辣糊糊）</td><td>银川</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>银川（西夏陵/镇北堡影视城/贺兰山岩画 三选二）→ 中卫沙坡头</td><td>约 250 km</td><td>沙坡头黄河与沙漠同框</td><td>中卫/吴忠</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>中卫 → 延安</td><td>430 km</td><td>黄土高原风光；宝塔山夜景</td><td>延安</td></tr>
+      <tr><td class="date">10/6<span class="wk">周二</span></td><td>延安 → 壶口瀑布 → 平遥古城</td><td>380 km</td><td>壶口瀑布必看；平遥夜逛古城</td><td>平遥</td></tr>
+      <tr class="hl"><td class="date">10/7<span class="wk">周三</span></td><td class="warn">平遥 → 太原 → 石家庄 → 济南 → 杭州（全天高速）</td><td>约 1100 km</td><td>早 6 点出发，两人轮换，晚 8–9 点到杭州</td><td>回家</td></tr>
+    </table>
+  </div>
+
+
+  <div class="rpanel" id="ps">
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 陇南 → 广元</td><td>550 km</td><td>翻米仓山，剑门蜀道</td><td>广元</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>广元剑门关（3h）→ 重庆</td><td>380 km</td><td>晚上洪崖洞夜景 + 火锅</td><td>重庆</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>重庆（解放碑/磁器口）→ 湘西凤凰</td><td>550 km</td><td>凤凰古城夜景，沱江边住宿</td><td>凤凰</td></tr>
+      <tr class="hl"><td class="date">10/6<span class="wk">周二</span></td><td>凤凰 → 长沙（橘子洲快闪 2h）→ 南昌</td><td class="warn">750 km</td><td>全天赶路，仅在长沙短停</td><td>南昌</td></tr>
+      <tr><td class="date">10/7<span class="wk">周三</span></td><td>南昌（滕王阁打卡）→ 上饶 → 杭州</td><td>600 km</td><td>中午滕王阁，傍晚到杭州</td><td>回家</td></tr>
+    </table>
+    <div class="note">⚠️ 南线后两天（750 / 600 km）为高强度日，需两人全程轮换驾驶；黄金周川渝、湘西住宿紧张，需尽早预订。</div>
+  </div>
+
+  <div class="rpanel" id="pg">
+    <div class="lead"><b>⚠️ 此线 5 天假期走不完</b>：灵台到成都单程就约 1500 km / 4 天，成都回杭州还有约 2100 km。下面按完整 <b>9 天</b> 排期存档，若本次要走需额外请假 4 天；硬压成 5 天只能到九寨沟为止、且须从成都飞回（车需另想办法）。<br>另注：10 月初甘南草原已枯黄、海拔 3000–3500 m 可能落雪，九寨沟为国庆最高峰人流，务必提前 15 天抢票。</div>
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 兰州</td><td>360 km</td><td>下午甘肃省博物馆（铜奔马）、黄河中山桥夜景、正宁路夜市</td><td>兰州</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>兰州 → 临夏（八坊十三巷）→ 夏河</td><td>240 km</td><td>进入甘南藏区；拉卜楞寺（世界最长转经长廊）</td><td>夏河</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>夏河 → 桑科草原 → 郎木寺</td><td>200 km</td><td>甘南草原腹地；郎木寺小镇横跨甘川两省</td><td>郎木寺镇</td></tr>
+      <tr><td class="date">10/6<span class="wk">周二</span></td><td>郎木寺 → 若尔盖花湖 → 九寨沟</td><td>320 km</td><td>黄河九曲第一湾可绕 1h；花湖—热尔大坝草原</td><td>九寨沟口</td></tr>
+      <tr class="hl"><td class="date">10/7<span class="wk">周三</span></td><td class="warn">九寨沟整日（诺日朗—五花海—长海）</td><td>—</td><td>国庆人流峰值，7 点前排队入园；此日已超出 10/7 到家计划</td><td>九寨沟口</td></tr>
+      <tr><td class="date">D6<span class="wk">请假</span></td><td>九寨沟 → 成都</td><td>400 km</td><td>岷江河谷；晚上宽窄巷子 / 锦里</td><td>成都</td></tr>
+      <tr><td class="date">D7<span class="wk">请假</span></td><td>成都 → 重庆</td><td>300 km</td><td>大熊猫基地上午半日；傍晚洪崖洞夜景 + 火锅</td><td>重庆</td></tr>
+      <tr><td class="date">D8<span class="wk">请假</span></td><td>重庆 → 长沙</td><td class="warn">900 km</td><td>全天赶路，两人轮换</td><td>长沙</td></tr>
+      <tr class="hl"><td class="date">D9<span class="wk">请假</span></td><td class="warn">长沙 → 杭州</td><td>900 km</td><td>早 6 点出发，晚 7–8 点到</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 若只有 5 天：走 灵台→兰州→夏河→郎木寺→成都（约 1500 km / 4 天），第 5 天成都飞杭州，车托运或找人开回——成本较高，不如留到下次连休。</div>
+  </div>
+
+  <div class="rpanel" id="px">
+    <div class="lead"><b>⚠️ 此线 5 天假期走不完</b>：敦煌在兰州西北 1100 km 外，往返光赶路就占掉 2 天。下面按完整 <b>8 天</b> 排期存档，若本次要走需额外请假 3 天。<br>另注：莫高窟正窟票需提前 30 天在官方小程序实名抢（国庆基本秒空），抢不到只能买应急票看 4 个窟；张掖丹霞最佳光线在日落前 2 小时。</div>
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 兰州</td><td>360 km</td><td>甘肃省博物馆、黄河风情线、牛肉面</td><td>兰州</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>兰州 → 武威（雷台汉墓）→ 张掖</td><td>520 km</td><td>傍晚张掖七彩丹霞（日落光线最佳）</td><td>张掖</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>张掖（大佛寺）→ 嘉峪关 → 敦煌</td><td>580 km</td><td>嘉峪关城楼 + 悬臂长城（各 1.5h）</td><td>敦煌</td></tr>
+      <tr><td class="date">10/6<span class="wk">周二</span></td><td>敦煌：莫高窟 → 鸣沙山月牙泉</td><td>—</td><td>上午莫高窟，下午 5 点后进沙漠避高温、看落日</td><td>敦煌</td></tr>
+      <tr class="hl"><td class="date">10/7<span class="wk">周三</span></td><td class="warn">敦煌 → 兰州（G3011 / G30 全天高速）</td><td class="warn">1100 km</td><td>纯赶路日，早 6 点出发两人轮换，晚 8 点到</td><td>兰州</td></tr>
+      <tr><td class="date">D7<span class="wk">请假</span></td><td>兰州 → 西安</td><td>650 km</td><td>天水麦积山可绕 2h（石窟四大之一）</td><td>西安</td></tr>
+      <tr><td class="date">D8<span class="wk">请假</span></td><td>西安 → 合肥</td><td>1000 km</td><td>全天赶路</td><td>合肥</td></tr>
+      <tr class="hl"><td class="date">D9<span class="wk">请假</span></td><td>合肥 → 杭州</td><td>450 km</td><td>睡到自然醒，中午到家</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 若只有 5 天：只走「兰州—武威—张掖—嘉峪关」折返（约 1400 km），敦煌留到下次。丹霞 + 嘉峪关 4 天可完成，第 5 天 1100 km 回程仍偏紧。</div>
+  </div>
+
+  <div class="rpanel" id="pt">
+    <table>
+      <tr><th style="width:90px">日期</th><th>行程</th><th style="width:110px">车程</th><th>亮点</th><th style="width:90px">住宿</th></tr>
+      <tr><td class="date">10/3<span class="wk">周六</span></td><td>灵台 → 西安（不停）→ 运城</td><td>530 km</td><td>解州关帝庙（关公祖庙，规模全国第一）、运城盐湖「七彩」</td><td>运城</td></tr>
+      <tr><td class="date">10/4<span class="wk">周日</span></td><td>运城 → 晋城（皇城相府）→ 王莽岭</td><td>250 km</td><td>皇城相府（陈廷敬故居）3h；下午王莽岭看太行山脊</td><td>晋城 / 陵川</td></tr>
+      <tr><td class="date">10/5<span class="wk">周一</span></td><td>晋城 → 新乡辉县（郭亮村挂壁公路）</td><td>220 km</td><td>郭亮洞挂壁公路 + 崖上人家；或改云台山红石峡</td><td>辉县 / 焦作</td></tr>
+      <tr class="hl"><td class="date">10/6<span class="wk">周二</span></td><td>新乡 → 郑州（可停少林寺 3h）→ 合肥</td><td class="warn">680 km</td><td>登封少林寺顺路；晚宿合肥罍街吃小吃</td><td>合肥</td></tr>
+      <tr><td class="date">10/7<span class="wk">周三</span></td><td>合肥 → 杭州</td><td>450 km</td><td>睡到自然醒，中午到杭州</td><td>回家</td></tr>
+    </table>
+    <div class="note">💡 与北线（宁夏—陕北—山西）走向不同：本线走山西东南部太行山区，景点更密、单日车程更短，最后两天也比北线的 1100 km 轻松得多。10/6 若不舍少林寺，可改走 新乡→开封（清明上河园半日）→合肥，里程相近。</div>
+  </div>
+
+
+  <h2 class="sec" id="sec-spots">📍 沿途景点清单（含省份）</h2>
+  <div id="attractions"></div>
+
+  <h2 class="sec" id="sec-xian">🍜 西安深度攻略（收藏整合）</h2>
+  <div class="note">来自小红书收藏整理：美食按片区、景点含票价与小贴士、经典线路参考；票价为整理时价格，以现场为准。</div>
+  <h3 class="sub">🍜 美食 · 按片区</h3>
+  <div id="xianFood"></div>
+  <h3 class="sub">🏛️ 景点 · 票价与小贴士</h3>
+  <div id="xianAttr"></div>
+  <h3 class="sub">🗺️ 经典线路参考（多份攻略共识）</h3>
+  <div id="xianRoute"></div>
+  <div class="note">💡 与行程对应：经典 Day1 / Day2 骨架 ≈ 9/28 / 9/29；若想看《长恨歌》，9/28 可改用 Day3 走法——洒金桥早餐 → 兵马俑下午场 → 华清宫 → 长恨歌第一场（散场地铁返市区）。10 月初正应季：刘明柿子糊塌、大兴善寺古银杏。📍 地址为街区/片区级导航参考，小巷小店以地图 App 搜店名为准。美食觅食线末段与「拍照机位」清单待补发后并入。</div>
+
+  <h2 class="sec" id="sec-cost">💰 费用预估（两人）</h2>
   <table>
     <tr><th>项目</th><th>说明</th><th>金额</th></tr>
     <tr><td>油费</td><td>全程约 3,400–6,100 km（去程 1,530 km + 返程：华中 1,900 / 太行晋中 2,150 / 南线 2,800 / 甘南川西 3,600 / 河西走廊 4,600 km）</td><td>≈ ¥2,000–3,700</td></tr>
@@ -63,7 +271,7 @@
     <tr><td><b>合计</b></td><td></td><td><b>≈ ¥1.1–1.4 万</b></td></tr>
   </table>
 
-  <h2 class="sec">✅ 提前要准备 / 安排的事项</h2>
+  <h2 class="sec" id="sec-todo">✅ 待办清单</h2>
   <div class="grid2">
     <div class="box">
       <h3>现在就要做</h3>
@@ -71,7 +279,7 @@
         <li>预订酒店：西安 3 晚、返程沿途各晚，选可免费取消</li>
         <li>兵马俑、陕历博：开放预约即抢（实名）</li>
         <li>确认平凉体检档期（若需要，优先约 10/2）</li>
-        <li>先定返程线路（六选一），再按该线订沿途酒店</li>
+        <li>先定返程线路（8 选 1），再按该线订沿途酒店</li>
       </ul>
     </div>
     <div class="box">
@@ -86,7 +294,352 @@
   </div>
 </div>
 
-<script>window.MAP_CONFIG = { routes:["rt0","rtn","rt4","rts","rt5","rt6","rt7"] };</script>
-<script src="map.js"></script>
+<script>
+/* ---------- SVG 示意地图（离线可用） ---------- */
+const CITY = {
+  杭州:[119.60,30.25], 阜阳:[115.81,32.89], 洛阳:[112.45,34.62], 西安:[108.94,34.34], 灵台:[107.62,35.07],
+  宝鸡:[107.14,34.37], 留坝:[106.92,33.61], 汉中:[107.03,33.07], 武当山:[110.80,32.47], 襄阳:[112.12,32.01],
+  武汉:[114.31,30.59], 合肥:[117.28,31.86], 宣城:[118.76,30.95],
+  固原:[106.24,36.00], 银川:[106.23,38.48], 中卫:[105.18,37.51], 延安:[109.49,36.60], 壶口:[110.45,36.15], 平遥:[112.18,37.20],
+  广元:[105.84,32.44], 重庆:[106.55,29.56], 凤凰:[109.60,27.95], 长沙:[112.94,28.23], 南昌:[115.86,28.68],
+  兰州:[103.83,36.06], 临夏:[103.21,35.60], 夏河:[102.51,35.20], 郎木寺:[102.63,34.09], 若尔盖:[102.96,33.57],
+  九寨沟:[103.92,33.26], 成都:[104.07,30.57],
+  武威:[102.63,37.93], 张掖:[100.45,38.93], 嘉峪关:[98.28,39.77], 敦煌:[94.66,40.14],
+  运城:[111.00,35.03], 晋城:[112.85,35.49], 新乡:[113.93,35.30], 郑州:[113.62,34.75],
+};
+const PROV = {
+  杭州:"浙江", 阜阳:"安徽", 洛阳:"河南", 西安:"陕西", 灵台:"甘肃", 宝鸡:"陕西", 留坝:"陕西", 汉中:"陕西",
+  武当山:"湖北", 襄阳:"湖北", 武汉:"湖北", 合肥:"安徽", 宣城:"安徽", 固原:"宁夏", 银川:"宁夏", 中卫:"宁夏",
+  延安:"陕西", 壶口:"山西/陕西", 平遥:"山西", 广元:"四川", 重庆:"重庆", 凤凰:"湖南", 长沙:"湖南", 南昌:"江西",
+  兰州:"甘肃", 临夏:"甘肃", 夏河:"甘肃", 郎木寺:"甘肃/四川", 若尔盖:"四川", 九寨沟:"四川", 成都:"四川",
+  武威:"甘肃", 张掖:"甘肃", 嘉峪关:"甘肃", 敦煌:"甘肃",
+  运城:"山西", 晋城:"山西", 新乡:"河南", 郑州:"河南",
+};
+/* 视野范围（经度 92–126，纬度 20–43.5）；西至 92°E 以容纳敦煌 94.66°E */
+const LON0=92, LON1=126, LAT0=20, LAT1=43.5;
+const W=1000, H=760;
+const X = lon => (lon-LON0)/(LON1-LON0)*W;
+const Y = lat => (LAT1-lat)/(LAT1-LAT0)*H;
+
+/* 中国大陆轮廓（简化示意） */
+const OUTLINE = [
+[73.6,39.4],[76.0,40.6],[80.2,45.1],[83.0,47.2],[85.5,48.0],[87.8,49.1],[90.9,47.8],[96.4,42.8],
+[105.0,41.8],[110.0,42.5],[114.5,45.0],[117.8,46.7],[117.5,49.6],[121.0,52.8],[124.0,53.2],[126.5,52.8],
+[134.7,48.4],[133.0,45.2],[131.2,43.3],[130.6,42.4],[128.0,41.5],[124.4,40.1],[121.7,39.0],[122.5,37.4],
+[119.2,37.2],[120.3,36.1],[119.4,34.7],[120.9,32.6],[121.9,31.0],[121.4,28.4],[119.6,26.0],[118.1,24.5],
+[116.7,23.3],[113.9,22.5],[110.4,21.4],[108.3,21.5],[106.7,22.0],[105.3,23.3],[103.9,22.4],[101.7,21.6],
+[99.9,21.5],[97.5,23.9],[98.7,25.8],[97.5,28.2],[95.4,29.0],[92.1,26.9],[88.9,27.3],[85.8,30.3],
+[81.2,30.2],[79.0,32.4],[78.2,34.6],[76.0,35.5],[74.5,37.0]
+];
+/* 台湾、海南示意 */
+const TW = [[121.0,25.3],[121.9,24.9],[121.5,23.0],[120.7,22.6],[120.1,23.1],[120.9,25.0]];
+const HN = [[108.7,20.0],[110.6,20.1],[111.0,19.6],[109.2,18.2],[108.6,19.0]];
+
+const ROUTES = [
+ {id:"rt0", color:"#2f6fed", pts:["杭州","阜阳","洛阳","西安","灵台"], name:"去程：杭州 → 阜阳 → 洛阳 → 西安 → 灵台"},
+ {id:"rtn", color:"#9c36b5", pts:["灵台","固原","银川","中卫","延安","壶口","平遥","杭州"], name:"北线：灵台 → 固原 → 银川 → 中卫 → 延安 → 壶口 → 平遥 → 杭州"},
+ {id:"rt4", color:"#0c8599", pts:["灵台","西安","武当山","襄阳","武汉","杭州"], name:"华中线：灵台 → 西安 → 武当山 → 襄阳 → 武汉 → 杭州"},
+ {id:"rts", color:"#e8590c", pts:["灵台","广元","重庆","凤凰","长沙","南昌","杭州"], name:"南线：灵台 → 广元 → 重庆 → 凤凰 → 长沙 → 南昌 → 杭州"},
+ {id:"rt5", color:"#d6336c", pts:["灵台","兰州","临夏","夏河","郎木寺","若尔盖","九寨沟","成都","重庆","长沙","杭州"], name:"甘南—川西线：灵台 → 兰州 → 夏河 → 郎木寺 → 若尔盖 → 九寨沟 → 成都 → 重庆 → 长沙 → 杭州"},
+ {id:"rt6", color:"#5f3dc4", pts:["灵台","兰州","武威","张掖","嘉峪关","敦煌","兰州","西安","合肥","杭州"], name:"河西走廊线：灵台 → 兰州 → 武威 → 张掖 → 嘉峪关 → 敦煌 → 兰州 → 西安 → 合肥 → 杭州"},
+ {id:"rt7", color:"#495057", pts:["灵台","西安","运城","晋城","新乡","郑州","合肥","杭州"], name:"太行山—晋中线：灵台 → 西安 → 运城 → 晋城 → 新乡 → 郑州 → 合肥 → 杭州"},
+];
+
+const svgNS = "http://www.w3.org/2000/svg";
+function el(tag, attrs){
+  const e = document.createElementNS(svgNS, tag);
+  for(const k in attrs) e.setAttribute(k, attrs[k]);
+  return e;
+}
+const svg = el("svg",{viewBox:`0 0 ${W} ${H}`, xmlns:svgNS});
+document.getElementById("map").appendChild(svg);
+
+/* 背景 + 网格 */
+svg.appendChild(el("rect",{x:0,y:0,width:W,height:H,fill:"#eaf2f6"}));
+for(let lon=95; lon<=125; lon+=5){
+  const g = el("line",{x1:X(lon),y1:0,x2:X(lon),y2:H,stroke:"#d3e2ea","stroke-width":1});
+  svg.appendChild(g);
+  const t = el("text",{x:X(lon)+3,y:H-6,fill:"#9fb8c4","font-size":11}); t.textContent = lon+"°E"; svg.appendChild(t);
+}
+for(let lat=25; lat<=40; lat+=5){
+  svg.appendChild(el("line",{x1:0,y1:Y(lat),x2:W,y2:Y(lat),stroke:"#d3e2ea","stroke-width":1}));
+  const t = el("text",{x:6,y:Y(lat)-4,fill:"#9fb8c4","font-size":11}); t.textContent = lat+"°N"; svg.appendChild(t);
+}
+/* 陆地轮廓 */
+[OUTLINE,TW,HN].forEach(pg=>{
+  svg.appendChild(el("polygon",{points:pg.map(p=>X(p[0])+","+Y(p[1])).join(" "),fill:"#f5f1e8",stroke:"#c9bfa8","stroke-width":1.2,"fill-opacity":.9}));
+});
+
+/* 路线 */
+const routeGroups = {};
+ROUTES.forEach(r=>{
+  const g = el("g",{});
+  const pts = r.pts.map(n=>CITY[n]);
+  for(let i=0;i<pts.length-1;i++){
+    g.appendChild(el("line",{x1:X(pts[i][0]),y1:Y(pts[i][1]),x2:X(pts[i+1][0]),y2:Y(pts[i+1][1]),stroke:r.color,"stroke-width":4,"stroke-linecap":"round",opacity:.9}));
+  }
+  const title = el("title",{}); title.textContent = r.name; g.appendChild(title);
+  svg.appendChild(g);
+  routeGroups[r.id] = g;
+  document.getElementById(r.id).addEventListener("change",function(){
+    g.style.display = this.checked ? "" : "none";
+  });
+});
+
+/* 城市点位（起点/终点大标，其余小标） */
+Object.keys(CITY).forEach(n=>{
+  const [lon,lat] = CITY[n];
+  const big = (n==="杭州"||n==="灵台");
+  const g = el("g",{cursor:"pointer"});
+  g.appendChild(el("circle",{cx:X(lon),cy:Y(lat),r:big?7:5,fill:"#fff",stroke:"#1f2329","stroke-width":big?2.5:1.8}));
+  const title = el("title",{}); title.textContent = `${PROV[n]} · ${n}`; g.appendChild(title);
+  /* 标签避让：经度大的放左边 */
+  const labelRight = lon < 111;
+  const t = el("text",{x:X(lon)+(labelRight?10:-10),y:Y(lat)+4,fill:"#1f2329","font-size":13,"font-weight":big?700:500,"text-anchor":labelRight?"start":"end",stroke:"#eaf2f6","stroke-width":3,"paint-order":"stroke"});
+  t.textContent = n; g.appendChild(t);
+  svg.appendChild(g);
+});
+</script>
+
+<script>
+/* ---------- 返程 Tab ---------- */
+document.querySelectorAll(".rtab").forEach(t=>{
+  t.addEventListener("click",()=>{
+    document.querySelectorAll(".rtab").forEach(x=>x.classList.remove("active"));
+    document.querySelectorAll(".rpanel").forEach(x=>x.classList.remove("show"));
+    t.classList.add("active");
+    document.getElementById(t.dataset.p).classList.add("show");
+  });
+});
+document.querySelector(".rtab.h").classList.add("active");
+document.getElementById("ph").classList.add("show");
+
+/* ---------- 景点清单 ---------- */
+const DATA = [
+ {seg:"去程 · 杭州—阜阳沿线", cities:[
+  {city:"湖州", prov:"浙江", items:[["南浔古镇","s3","比乌镇西塘清净的江南古镇"]]},
+  {city:"宣城", prov:"安徽", items:[["查济古村","s3","明清古村落"],["桃花潭","s3","「桃花潭水深千尺」"]]},
+  {city:"芜湖", prov:"安徽", items:[["芜湖古城","s3","顺路歇脚吃饭"],["鸠兹古镇","s3","徽派仿古街区"]]},
+  {city:"合肥", prov:"安徽", items:[["三河古镇","s2","水乡古镇，免门票"],["罍街","s3","合肥小吃夜市"]]},
+  {city:"淮南", prov:"安徽", items:[["八公山","s3","豆腐发源地，牛肉汤顺路喝一碗"]]},
+  {city:"阜阳", prov:"安徽", items:[["颍州西湖","s3","欧阳修笔下的西湖"],["阜阳生态园","s3","市内休闲"]]},
+ ]},
+ {seg:"去程 · 阜阳—西安沿线", cities:[
+  {city:"亳州", prov:"安徽", items:[["曹操运兵道","s3","地下长城，很独特"],["花戏楼","s3","砖雕木雕彩绘一绝"],["华祖庵","s3","华佗纪念地"]]},
+  {city:"洛阳", prov:"河南", items:[["龙门石窟","s1","中国三大石窟之首，夜游更美"],["白马寺","s2","中国第一古刹"],["洛邑古城","s2","汉服打卡夜游"],["应天门夜景","s2","隋唐洛阳城，灯光秀震撼"],["丽景门","s3","老城鼓楼片区"]]},
+  {city:"三门峡", prov:"河南", items:[["陕州地坑院","s2","「见树不见村」的地下四合院"],["函谷关","s3","老子著《道德经》处"]]},
+  {city:"商洛", prov:"陕西", items:[["金丝峡","s3","秦岭峡谷风光"],["牛背梁","s3","适合爬山爱好者"]]},
+ ]},
+ {seg:"西安及周边", cities:[
+  {city:"西安", prov:"陕西", items:[
+    ["兵马俑","s1","世界第八奇迹，务必提前官方预约+请讲解"],
+    ["华清宫+骊山","s2","与兵马俑同天；《长恨歌》演出值得看"],
+    ["西安城墙（南门骑行）","s1","中国现存最完整古城墙，傍晚骑行最佳"],
+    ["大唐不夜城+大雁塔","s1","免费夜景天花板，只推荐晚上去"],
+    ["陕西历史博物馆","s2","极难约；备选秦汉馆/西安博物院"],
+    ["碑林博物馆+书院门","s2","书法圣地，颜真卿柳公权真碑"],
+    ["回民街/洒金桥/永兴坊","s2","美食核心在洒金桥和大皮院支线"],
+    ["高家大院","s3","回民街内看皮影戏"],
+    ["大明宫遗址公园","s3","拍丹凤门即可"],
+    ["长安十二时辰街区","s3","室内沉浸式唐风街区"],
+    ["钟楼·鼓楼","s3","拍照即可，不必登楼"],
+  ]},
+  {city:"华阴", prov:"陕西", items:[["华山","s2","要一整天+好体力，建议留给下次"]]},
+ ]},
+ {seg:"西安—灵台沿线", cities:[
+  {city:"咸阳", prov:"陕西", items:[["袁家村","s3","关中民俗美食村"],["茂陵","s3","汉武帝陵，霍去病墓石刻"]]},
+  {city:"礼泉", prov:"陕西", items:[["昭陵","s3","唐太宗陵，袁家村附近"]]},
+  {city:"乾县", prov:"陕西", items:[["乾陵","s2","武则天与李治合葬墓"]]},
+  {city:"彬州", prov:"陕西", items:[["大佛寺石窟","s3","丝路世界遗产点，就在高速旁"]]},
+  {city:"泾川", prov:"甘肃", items:[["王母宫","s3","西王母祖庙"],["南石窟寺","s3","北魏石窟"]]},
+ ]},
+ {seg:"灵台—平凉周边", cities:[
+  {city:"灵台", prov:"甘肃", items:[["皇甫谧文化园","s3","针灸鼻祖故里"],["荆山森林公园","s3","县城内散步"],["古灵台","s3","县名由来"]]},
+  {city:"平凉", prov:"甘肃", items:[["崆峒山","s1","道教第一山，半天可游完"],["平凉博物馆","s3","免费，市区"]]},
+ ]},
+ {seg:"华中线沿途（西安—武当—襄阳—武汉）", cities:[
+  {city:"西安（补漏）", prov:"陕西", items:[["乾陵","s2","武则天与李治合葬墓，去程没停则此行补上"],["袁家村","s3","关中民俗美食村，午饭顺路"]]},
+  {city:"商洛", prov:"陕西", items:[["漫川关古镇","s3","陕鄂边界千年古镇，G70 顺路"],["金丝峡","s3","秦岭峡谷，需多留半天"]]},
+  {city:"十堰·武当山", prov:"湖北", items:[["金顶","s1","武当之巅，8 点前进山人少"],["紫霄宫","s1","皇家道观规制最高"],["太子坡","s2","九曲黄河墙、一柱十二梁"],["南岩","s2","悬崖宫殿，龙头香"]]},
+  {city:"丹江口", prov:"湖北", items:[["丹江口大坝","s3","南水北调中线源头，武当山→襄阳顺路"]]},
+  {city:"襄阳", prov:"湖北", items:[["襄阳古城墙","s2","华夏第一城池，夜景好"],["唐城影视城","s2","《妖猫传》取景地，夜场很出片"],["古隆中","s2","诸葛亮躬耕地"],["汉江夜游","s3","游船看两岸灯光"]]},
+  {city:"随州", prov:"湖北", items:[["曾侯乙墓遗址博物馆","s3","编钟出土地，武汉前顺路"]]},
+  {city:"武汉", prov:"湖北", items:[["黄鹤楼","s2","地标，登楼看长江"],["东湖","s3","绿道骑行舒服"],["粮道街/户部巷","s2","过早：热干面、豆皮"],["江汉路夜景","s3","百年商业街"]]},
+  {city:"皖江段（末段可选）", prov:"安徽", items:[["天柱山（安庆）","s2","古南岳，G50 顺路绕 1h"],["九华山（池州）","s2","佛教名山，绕 1–2h，仅时间富余时考虑"],["三河古镇（合肥）","s3","若走北线合肥方向收尾"]]},
+ ]},
+ {seg:"北线沿途（宁夏—陕北—山西）", cities:[
+  {city:"固原", prov:"宁夏", items:[["六盘山","s3","红军长征翻越的山，服务区远观"]]},
+  {city:"银川", prov:"宁夏", items:[["西夏陵","s2","西夏王朝帝陵，「东方金字塔」"],["镇北堡影视城","s2","《大话西游》取景地"],["贺兰山岩画","s2","史前岩刻+贺兰山雄浑"],["怀远夜市","s3","辣糊糊、烤羊肉"]]},
+  {city:"中卫", prov:"宁夏", items:[["沙坡头","s1","黄河与腾格里沙漠同框，滑沙/羊皮筏子"],["66号公路","s3","戈壁网红公路"]]},
+  {city:"延安", prov:"陕西", items:[["宝塔山","s3","夜景灯光"],["杨家岭/枣园","s3","红色旧址"],["甘泉大峡谷","s2","黄土高原丹霞峡谷，需绕路半天"]]},
+  {city:"壶口", prov:"山西/陕西", items:[["壶口瀑布","s1","黄河最壮一段，10 月水量尚可"],["南泥湾","s3","顺路稻田风光"]]},
+  {city:"平遥", prov:"山西", items:[["平遥古城","s1","完整明清县城，夜逛最美"],["又见平遥","s2","大型情境演出，值得"],["双林寺","s2","彩塑艺术巅峰，就在城旁"]]},
+  {city:"太原", prov:"山西", items:[["晋祠","s3","古建爱好者可停 2h"],["山西博物院","s3","青铜重器多"]]},
+ ]},
+ {seg:"南线沿途（川渝—湘西—赣）", cities:[
+  {city:"陇南", prov:"甘肃", items:[["官鹅沟","s3","需绕路，时间富余才去"]]},
+  {city:"广元", prov:"四川", items:[["剑门关","s2","「一夫当关万夫莫开」，蜀道核心"],["皇泽寺","s3","武则天祀庙"]]},
+  {city:"重庆", prov:"重庆", items:[["洪崖洞","s1","夜景地标"],["解放碑/磁器口","s2","市井山城"],["长江索道","s3","过江体验"],["重庆火锅","s1","九宫格老油锅"]]},
+  {city:"凤凰", prov:"湖南", items:[["凤凰古城","s1","沱江吊脚楼夜景"],["苗人谷","s3","顺路半日"]]},
+  {city:"长沙", prov:"湖南", items:[["橘子洲头","s2","湘江中洲，青年毛泽东像"],["岳麓山/岳麓书院","s3","时间紧可舍"],["茶颜悦色/文和友","s2","打卡型美食"]]},
+  {city:"南昌", prov:"江西", items:[["滕王阁","s2","江南三大名楼"],["万寿宫历史文化街区","s3","小吃夜市"]]},
+ ]},
+ {seg:"🌸 甘南—川西线沿途（兰州—甘南—九寨—成都—重庆）", cities:[
+  {city:"兰州", prov:"甘肃", items:[["甘肃省博物馆","s1","铜奔马、丝绸之路文明展，免费但需预约"],["中山桥+黄河风情线","s3","黄河母亲像、水车博览园"],["正宁路夜市","s3","牛奶鸡蛋醪糟、烤肉"]]},
+  {city:"临夏", prov:"甘肃", items:[["八坊十三巷","s3","回族砖雕民居群，兰州→夏河顺路"],["炳灵寺石窟","s2","需绕路+坐船半天，时间富余才去"]]},
+  {city:"夏河", prov:"甘肃", items:[["拉卜楞寺","s1","格鲁派六大寺之一，世界最长转经长廊"],["桑科草原","s3","县城外 13 km，10 月草已枯黄"]]},
+  {city:"郎木寺", prov:"甘肃/四川", items:[["格尔底寺","s2","四川侧，白龙江源头可徒步"],["赛赤寺","s3","甘肃侧，看小镇全景"],["纳摩大峡谷","s3","徒步往返 2h"]]},
+  {city:"若尔盖", prov:"四川", items:[["花湖","s2","高原湿地，10 月水草转黄但仍有野鸭"],["黄河九曲第一湾","s2","日落最佳，需绕 1h 车程"]]},
+  {city:"九寨沟", prov:"四川", items:[["五花海","s1","九寨精华，色彩最丰富"],["诺日朗瀑布","s1","《西游记》片尾取景地"],["长海+五彩池","s2","则查洼沟顶端"],["树正沟","s3","进沟第一站，人少"]]},
+  {city:"成都", prov:"四川", items:[["大熊猫繁育研究基地","s1","务必早 7:30 到，9 点后熊猫睡觉"],["宽窄巷子/锦里","s3","商业化但顺路"],["都江堰","s2","若多留半天可去"]]},
+ ]},
+ {seg:"🏜️ 河西走廊线沿途（兰州—武威—张掖—嘉峪关—敦煌）", cities:[
+  {city:"武威", prov:"甘肃", items:[["雷台汉墓","s3","「马踏飞燕」出土地，兰州→张掖顺路"],["鸠摩罗什寺","s3","市内免费"]]},
+  {city:"张掖", prov:"甘肃", items:[["七彩丹霞","s1","日落前 2 小时进景区光线最好"],["大佛寺","s2","西夏卧佛，室内亚洲最大室内涅槃像"],["马蹄寺","s3","需绕路半天，悬空石窟"]]},
+  {city:"嘉峪关", prov:"甘肃", items:[["嘉峪关城楼","s1","天下第一雄关，含悬臂长城联票"],["方特欢乐世界","s3","同行人有兴趣才去"]]},
+  {city:"敦煌", prov:"甘肃", items:[["莫高窟","s1","需提前 30 天官方实名抢票；应急票仅 4 窟"],["鸣沙山·月牙泉","s1","下午 5 点后进，避高温看落日"],["雅丹魔鬼城","s2","西线 180 km，需大半天"],["玉门关·汉长城","s3","与雅丹同线顺路"]]},
+  {city:"天水", prov:"甘肃", items:[["麦积山石窟","s1","四大石窟之一，兰州→西安可绕 2h"]]},
+ ]},
+ {seg:"⛰️ 太行山—晋中线沿途（运城—晋城—新乡—郑州）", cities:[
+  {city:"运城", prov:"山西", items:[["解州关帝庙","s1","关公祖庙，全国规模最大"],["运城盐湖","s3","「七彩盐湖」，顺路远观即可"],["永乐宫","s2","元代壁画，比永乐宫名气小但极珍贵，绕 1h"]]},
+  {city:"晋城", prov:"山西", items:[["皇城相府","s1","陈廷敬故居，城堡式官宅，3h 够"],["王莽岭","s2","太行山脊云海，需好天气"],["锡崖沟挂壁公路","s3","与郭亮村同类型，可二选一"]]},
+  {city:"新乡", prov:"河南", items:[["郭亮村挂壁公路","s1","人工开凿的天路，视觉冲击强"],["万仙山·南坪","s2","与郭亮村同一景区"],["八里沟","s3","若不去郭亮可换这里"]]},
+  {city:"焦作", prov:"河南", items:[["云台山红石峡","s1","丹霞峡谷，国庆人多需早进"],["茱萸峰","s3","王维写诗处，爬山 2h"]]},
+  {city:"郑州", prov:"河南", items:[["少林寺（登封）","s2","顺路 3h，含武术表演"],["河南博物院","s2","免费，需预约；九大镇院之宝"]]},
+  {city:"开封", prov:"河南", items:[["清明上河园","s2","此线可作为新乡→合肥的中途替换项"]]},
+ ]},
+];
+const BADGE = {s1:["⭐ 强烈推荐","b-s1"], s2:["👍 值得绕路","b-s2"], s3:["📍 顺路快闪","b-s3"]};
+const wrap = document.getElementById("attractions");
+DATA.forEach(s=>{
+  let html = `<div class="city-name">${s.seg}</div><div class="cards">`;
+  s.cities.forEach(c=>{
+    c.items.forEach(it=>{
+      html += `<div class="card"><div class="name">${it[0]}<span class="badge ${BADGE[it[1]][1]}">${BADGE[it[1]][0]}</span></div><div class="desc"><span class="prov">${c.prov}</span>${c.city} · ${it[2]}</div></div>`;
+    });
+  });
+  html += `</div>`;
+  wrap.innerHTML += html;
+});
+
+/* ---------- 西安深度攻略（收藏整合） ---------- */
+const XFOOD = [
+ {g:"🏪 北客站 / 北郊片区", items:[
+  ["刘氏菠菜面","未央区 太古城商业街（北客站西南侧）","太古城店，招牌菠菜面碧绿筋道份量大；北客站下车直接去吃方便"],
+  ["佳斌澄城水盆羊肉","未央区 北客站/凤城路片区（导航搜店名）","汤清味厚，羊肉多且软烂不膻；糖蒜+辣子配着吃地道"],
+  ["小戴腊汁肉夹馍","未央区 太古城商业街（北客站西南侧）","太古城店；老三样：皮瘦肉夹馍+缸子米线+手工米皮"],
+  ["全盛斋","北郊多家分店（老字号，导航搜「全盛斋」就近）","多年老字号清真点心铺：玫瑰饼、千层酥、核桃饼，本地人送礼常去"],
+  ["萍义榴莲糖水","未央区 北郊片区（导航搜店名）","小料足、榴莲味浓价格便宜，吃完面来一碗当甜品"],
+  ["马峰酸汤水饺","未央区 北郊片区（导航搜店名）","人气排队店，皮薄馅足酸辣开胃，酸辣度可自己调"],
+  ["笼王焖面","未央区 北郊路边小店（导航搜店名）","豆角焖面吸满酱汁软而不烂，开门前就排队的巷子深小店"],
+ ]},
+ {g:"🥟 洒金桥 / 回民街片区", items:[
+  ["李唯一肉丸胡辣汤","莲湖区 洒金桥街北段（地铁1号线洒金桥站）","全天营业，丸子扎实汤浓带麻，配饦饦馍掰着吃是经典早餐"],
+  ["马蓉蛋菜夹馍","莲湖区 洒金桥街中段","网红但确实好吃；蛋黄+咸菜不加肉是本地点法，馍烤得酥脆"],
+  ["教场门饸饹馆","莲湖区 教场门街（近洒金桥南口/西大街）","几十年老店，手工压制口感筋道，回民街少有的不踩雷老店"],
+  ["老李家杂肝汤","莲湖区 大皮院街（近北院门口）","大皮院，料足汤鲜，杂肝干净无异味，本地老饕私藏"],
+  ["一真楼泡馍","莲湖区 大皮院街西段","大皮院巷口，牛肉实在；手掰馍体验传统吃法，泡馍入门首选"],
+  ["盛志望麻酱酿皮","莲湖区 洒金桥街中段","酿皮筋道麻酱香浓，夏天爽口，洒金桥老字号"],
+  ["胖子甑糕","莲湖区 洒金桥街北段","糯米裹红枣豆子蒸的，甜而不腻，九点多卖完要早起"],
+  ["刘明柿子糊塌","莲湖区 洒金桥街中段","柿子泥和面炸的小饼，外脆里软；10 月初正应季"],
+  ["马二酸汤水饺","莲湖区 洒金桥街南段（近大麦市街口）","与马峰齐名，酸辣口略不同，可两家对比"],
+  ["何二卤汁凉粉","莲湖区 回坊·西羊市/大皮院一带","凉粉浇卤汁和芥末，口感独特，回民街经典冷食"],
+  ["花奶奶酸梅汤","莲湖区 北院门回坊主街","现熬酸甜适中，吃完辣的来一杯解腻"],
+  ["石家包子","莲湖区 大皮院一带（回坊）","牛肉包子皮薄馅多汤汁足，回民街老牌子"],
+  ["东南亚甑糕","莲湖区 西羊市街中段（回坊）","与胖子甑糕齐名，风格略不同，可以都尝"],
+  ["军军绿豆糕馅饼","莲湖区 洒金桥街（回坊）","手工绿豆馅饼酥皮绵密不甜腻，适合当伴手礼"],
+ ]},
+ {g:"🍝 面食 / 碳水专门店", items:[
+  ["小卫臊子饸饹","碑林区 文艺路中段","文艺路 15 年老店；隐藏菜单荞麦削削+素臊子+油泼香椿"],
+  ["乡党臊子面","莲湖区 桃园南路·丰庆公园东北角","33 元/位自助流水席不限量，回转台送面像农村席"],
+  ["黄家大碗面","市区多家分店（导航就近）","炒拉条是招牌天花板，酱浓有嚼劲，95% 的人都点它"],
+  ["刘二店裤带面","雁塔区 围墙巷（小寨片区西侧）","南郊围墙巷夫妻店；面宽如裤带，肉臊子大片，干拌最地道"],
+  ["东郊手工担担面","城东 菜市场内（导航搜店名）","菜市场内 40 年老店，浆水菜担担面是特色"],
+  ["成都老街担担面","雁塔区 西电太白南路校区周边","西电附近，正宗四川老味，麻辣鲜香"],
+  ["老白家面馆","碑林区 测绘东路","测绘东路，拉条子比宽面更筋道，拌臊子简单但好吃"],
+ ]},
+ {g:"🍚 小馆子 / 宝藏小店", items:[
+  ["海底捞自助午餐","全市部分门店（以门店当日公告为准）","部分门店 20 元/人：三凉三热+水果豆浆不限量，性价比离谱"],
+  ["亚新烤包子","多家分店（导航搜店名就近）","新疆风味，烤包子外皮酥脆，拌面和烤羊肉也出色"],
+  ["小南园叉烧饭","雁塔区 西电太白南路校区周边","西电附近；18 元米饭无限加，叉烧鸡腿 6 元，穷鬼快乐屋"],
+  ["十九粮店","市区多家老字号社区店（导航就近）","包子面包卤味价格低到离谱，路过随手买"],
+  ["老西安韩记三鲜煮馍","市区多家（导航搜全名）","必点三件套：宫保鸡丁、莲菜炒馍、老醋里脊；馍吸满汤汁"],
+  ["刘记腊汁肉揪面片","碑林区 大车家巷（南大街西侧）","大车家巷（面食一条街）；面片弹牙，配棒棒肉"],
+  ["兴善寺极破店","雁塔区 兴善寺西街·大兴善寺周边","人均 20 元，店破但味道好，就在大兴善寺附近"],
+  ["沣峪口石锅鱼","长安区 沣峪口（G210 秦岭峪口，市区约 40–50 分钟）","博主五刷；鱼现杀现切石锅滚烫；沣峪口在秦岭脚下，自驾机动可选"],
+ ]},
+ {g:"🥟 钟楼小区 / 大雁塔 / 其他", items:[
+  ["秦豫肉夹馍","碑林区 东木头市（骡马市商圈）","馍烤得超脆肉香，纯瘦肉 11 元"],
+  ["志亮灌汤包","莲湖区 庙后街中段（回坊）","庙后街，汤汁饱满皮薄不破，配山楂粥是经典搭配"],
+  ["海富荣锅贴","钟楼南侧 钟楼小区外","牛肉韭黄馅底脆内嫩，本地人早饭常客"],
+  ["赵记绿豆饼","钟楼小区内","不甜腻外酥内绵密，老网红但确实好吃"],
+  ["玫瑰镜糕","莲湖区 大学习巷口（北院门西侧）","2 元/个，糯米裹玫瑰酱芝麻，经典小零食"],
+  ["翠华路肉夹馍/水盆","雁塔区 翠华路（陕历博正门一带）","陕历博出来顺便吃，这一片吃的不少"],
+  ["香酥牛肉饼","市区多家（钟楼/回坊周边常见）","外皮酥脆层次分明，牛肉馅扎实"],
+  ["BiangBiang 面","碑林区 南院门及周边多家老店","面宽如腰带一碗一根，配油泼或西红柿鸡蛋臊子"],
+  ["白吉馍","各腊汁肉夹馍店均有","腊汁肉的搭档，外酥内软单吃也好"],
+  ["睁眼辣子蘸羊肉","雁塔区 大雁塔周边（导航搜店名）","油泼辣子巨香，看着辣吃着停不下来"],
+  ["小贾油茶麻花","雁塔区 大雁塔/小寨东路周边（导航搜店名）","咸口油茶泡麻花，碳水脑袋必收"],
+ ]},
+];
+const XATTR = [
+ {g:"🕌 历史古迹 / 博物馆", items:[
+  ["西安城墙","54 元","永宁门上，骑行一圈 1–1.5h（单排 45/双排 60），傍晚夕阳最美","碑林区 永宁门（南门）入口 · 地铁2号线永宁门站"],
+  ["钟楼 / 鼓楼","联票 50","相距 200 米，鼓楼有编钟表演；夜景出片，环岛地下通道可拍车流合影","莲湖区 西大街与北院门交汇处 · 地铁2号线钟楼站"],
+  ["陕西历史博物馆","免费","提前 5–7 天公众号约，周一闭馆；讲解 100/场，何家村遗宝展 30 元很值得","雁塔区 小寨东路91号 · 地铁2/3号线小寨站"],
+  ["碑林博物馆","85 元","书法碑刻核心，《石台孝经》《开成石经》镇馆；建议约讲解，顺路书院门淘文创","碑林区 三学街15号（书院门街内）"],
+  ["大兴善寺","免费","唐密祖庭，古银杏 10 月初很美；清净不商业化，可串陕历博/赛格","雁塔区 兴善寺西街（小寨站北侧）"],
+  ["广仁寺","免费","陕西唯一藏传佛寺，康熙敕建；红墙金顶极出片，人少安静","莲湖区 习武园路·城墙内西北角（近玉祥门）"],
+  ["高家大院","15 元","回民街内明清四合院，含皮影戏+秦腔表演","莲湖区 北院门144号（回民街主街内）"],
+  ["陕西考古博物馆","免费","需预约，中国首座考古主题博物馆；位置偏南要留半天","长安区 终南大道（市区以南约 1h）"],
+  ["兴庆宫","免费","唐代皇家园林遗址（玄宗杨贵妃），现在是公园，本地人遛弯地","碑林区 咸宁西路55号（西安交大北侧）"],
+ ]},
+ {g:"🌙 大雁塔片区", items:[
+  ["大雁塔 / 大慈恩寺","寺 40","登塔另加 25，玄奘译经之地；如来佛与大雁塔同框是经典机位","雁塔区 大雁塔南北广场 · 地铁3/4号线大雁塔站"],
+  ["大唐不夜城","免费","晚上才有氛围；提前看当日节目表：不倒翁小姐姐、盛唐密盒","雁塔区 大雁塔南广场向南至开元广场（步行街）"],
+  ["大唐芙蓉园","120 元","建议 17:00 后进，白天+夜景一次 get；有《梦回大唐》演出，节假日灯会","雁塔区 曲江芙蓉西路99号 · 地铁4号线大唐芙蓉园站"],
+  ["小雁塔","免费","需预约；比大雁塔清净，秋荷很美，院内西安博物院可同逛","碑林区 友谊西路72号（西安博物院院内）"],
+ ]},
+ {g:"🏔️ 临潼方向", items:[
+  ["秦始皇兵马俑","120 元","含秦始皇陵；讲解 20 必请，不然就是看泥人；下午场人相对少","临潼区 秦陵北路·秦始皇兵马俑博物馆（市区东北约 40 km）"],
+  ["华清宫","120 元","骊山脚下温泉行宫+西安事变旧址，可与兵马俑串一天","临潼区 华清路38号（骊山北麓）"],
+  ["长恨歌演出","229 起","骊山实景演出提前 5 天公众号抢票；第一场散场可地铁返市区","临潼区 华清宫内九龙湖实景剧场"],
+ ]},
+ {g:"🌿 小众 / 周边 / 早市", items:[
+  ["小南门早市","—","每天 6:00–9:00，城墙根下烟火气早市，比洒金桥更本地化","莲湖区 勿幕门（小南门）顺城巷沿线"],
+  ["东仓门早市","—","更本地：大包子、甑糕、油茶、水煎包；逛完步行到骡马市吃秦豫肉夹馍","碑林区 东仓门街（和平门内）"],
+  ["永兴坊","免费","10:00–22:00 非遗美食街区，摔碗酒在这里；比回民街干净有序","新城区 东新街·小东门（中山门）内"],
+  ["安仁坊","免费","小寨附近唐代生活美学馆，光影沉浸体验适合拍照","雁塔区 小寨片区（导航搜「安仁坊」）"],
+  ["南五台","—","市区约 1h，佛教圣地，山上五台各有一庙，徒步难度中等","长安区 五台镇（市区以南约 1h）"],
+  ["渼陂湖","—","鄠邑区约 40min，「关中山水最佳处」；人少安静，适合自驾发呆","鄠邑区 渼陂湖文化生态园区"],
+ ]},
+];
+const XROUTE = [
+ {g:"📍 经典 3 日游（多条攻略共识）", items:[
+  ["Day 1","永宁门上城墙骑行 → 钟鼓楼拍照 → 洒金桥 / 回民街觅食 → 高家大院看皮影戏"],
+  ["Day 2","陕历博（约 2h，必约讲解）→ 大雁塔 / 大慈恩寺 → 大唐不夜城（晚上看表演）"],
+  ["Day 3","洒金桥早餐 → 兵马俑（下午场人少，请讲解）→ 华清宫 → 长恨歌演出（第一场，散场地铁回）"],
+ ]},
+ {g:"📍 4 天不绕路版", items:[
+  ["Day 1","城墙骑行（永宁门上）→ 钟鼓楼 → 回民街觅食 → 永兴坊"],
+  ["Day 2","陕历博 → 小雁塔 + 西安博物院 → 大雁塔 → 大唐不夜城"],
+  ["Day 3","碑林博物馆 → 书院门淘文创 → 洒金桥 → 兵马俑 + 华清宫 → 长恨歌"],
+  ["Day 4","小南门早市（早起）→ 大兴善寺 → 赛格商场 → 离城"],
+ ]},
+ {g:"🧨 新年 / 春节特别版（本次国庆不适用，存档）", items:[
+  ["灯会补充","经典 3 天基础上加：城墙灯会 / 大唐芙蓉园灯会 / 诗经里非遗千灯会；书院门淘手写春联，安仁坊光影体验"],
+  ["提示","春节限定活动多但人也多，灯会建议工作日晚上去"],
+ ]},
+ {g:"🍽️ 美食 · 洒金桥 → 大雁塔觅食线（1 天吃穿）", items:[
+  ["上午 · 洒金桥","李唯一胡辣汤 → 马蓉蛋菜夹馍 → 教场门饸饹 → 老李家杂肝汤"],
+  ["午后 · 回民街","一真楼泡馍、盛志望酿皮、胖子甑糕、何二卤汁凉粉、花奶奶酸梅汤"],
+  ["傍晚 · 钟楼","（此段之后接续内容待补发）"],
+ ]},
+];
+const xcard = (n,price,d,addr)=>`<div class="card"><div class="name">${n}${price?`<span class="price${price==="免费"?" free":""}">${price}</span>`:""}</div><div class="desc">${d}</div>${addr?`<div class="addr">📍 ${addr}</div>`:""}</div>`;
+document.getElementById("xianFood").innerHTML = XFOOD.map(g=>`<div class="city-name">${g.g}</div><div class="cards">${g.items.map(x=>xcard(x[0],"",x[2],x[1])).join("")}</div>`).join("");
+document.getElementById("xianAttr").innerHTML = XATTR.map(g=>`<div class="city-name">${g.g}</div><div class="cards">${g.items.map(x=>xcard(x[0],x[1],x[2],x[3])).join("")}</div>`).join("");
+document.getElementById("xianRoute").innerHTML = XROUTE.map(g=>`<div class="city-name">${g.g}</div><div class="cards">${g.items.map(x=>xcard(x[0],"",x[1])).join("")}</div>`).join("");
+</script>
 </body>
 </html>
